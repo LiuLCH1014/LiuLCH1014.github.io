@@ -20,20 +20,23 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":false,"nav":null,"activeClass":"livere"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal. Now we are engaged in a">
+  <meta name="description" content="参考：https:&#x2F;&#x2F;pay.weixin.qq.com&#x2F;static&#x2F;product&#x2F;product_index.shtml 基本流程   关键步骤：1.商户系统调用微信后台的一个接口； 2.小程序调用 wx.request Payment,完成真正的付款操作; 3.微信后台调用商户系统把支付结果通知给我们； JSAPI下单商户系统先调用该接口在微信支付服务后台生成预支付交易单，返回正确的预支付">
 <meta property="og:type" content="article">
-<meta property="og:title" content="底斯堡演讲">
-<meta property="og:url" content="http://example.com/2023/09/07/Hello-world/index.html">
+<meta property="og:title" content="微信支付小程序开发">
+<meta property="og:url" content="http://example.com/2023/09/08/%E5%BC%80%E5%8F%91%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B/index.html">
 <meta property="og:site_name" content="Here We Go">
-<meta property="og:description" content="Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal. Now we are engaged in a">
+<meta property="og:description" content="参考：https:&#x2F;&#x2F;pay.weixin.qq.com&#x2F;static&#x2F;product&#x2F;product_index.shtml 基本流程   关键步骤：1.商户系统调用微信后台的一个接口； 2.小程序调用 wx.request Payment,完成真正的付款操作; 3.微信后台调用商户系统把支付结果通知给我们； JSAPI下单商户系统先调用该接口在微信支付服务后台生成预支付交易单，返回正确的预支付">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-09-07T09:45:52.000Z">
-<meta property="article:modified_time" content="2023-09-07T10:11:11.005Z">
+<meta property="og:image" content="d:\BaiduNetdiskDownload\1%E3%80%81%E9%BB%91%E9%A9%AC%E7%A8%8B%E5%BA%8F%E5%91%98Java%E9%A1%B9%E7%9B%AE%E3%80%8A%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96%E3%80%8B%E4%BC%81%E4%B8%9A%E7%BA%A7%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98\%E8%AE%B2%E4%B9%89\day08\assets\image-20221214223910840.png">
+<meta property="og:image" content="c:\Users\L1835\AppData\Roaming\Typora\typora-user-images\image-20230908223011034.png">
+<meta property="article:published_time" content="2023-09-08T04:14:56.000Z">
+<meta property="article:modified_time" content="2023-09-08T15:09:45.456Z">
 <meta property="article:author" content="LLCH Liu">
-<meta property="article:tag" content="-英文 -演讲">
+<meta property="article:tag" content="-开发 -java">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="d:\BaiduNetdiskDownload\1%E3%80%81%E9%BB%91%E9%A9%AC%E7%A8%8B%E5%BA%8F%E5%91%98Java%E9%A1%B9%E7%9B%AE%E3%80%8A%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96%E3%80%8B%E4%BC%81%E4%B8%9A%E7%BA%A7%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98\%E8%AE%B2%E4%B9%89\day08\assets\image-20221214223910840.png">
 
-<link rel="canonical" href="http://example.com/2023/09/07/Hello-world/">
+<link rel="canonical" href="http://example.com/2023/09/08/%E5%BC%80%E5%8F%91%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B/">
 
 
 <script id="page-configurations">
@@ -46,7 +49,7 @@
   };
 </script>
 
-  <title>底斯堡演讲 | Here We Go</title>
+  <title>微信支付小程序开发 | Here We Go</title>
   
 
 
@@ -171,7 +174,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/09/07/Hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/09/08/%E5%BC%80%E5%8F%91%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -184,7 +187,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          底斯堡演讲
+          微信支付小程序开发
         </h1>
 
         <div class="post-meta">
@@ -195,7 +198,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-09-07 17:45:52 / 修改时间：18:11:11" itemprop="dateCreated datePublished" datetime="2023-09-07T17:45:52+08:00">2023-09-07</time>
+              <time title="创建时间：2023-09-08 12:14:56 / 修改时间：23:09:45" itemprop="dateCreated datePublished" datetime="2023-09-08T12:14:56+08:00">2023-09-08</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -203,7 +206,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%8B%B1%E6%96%87%E6%BC%94%E8%AE%B2/" itemprop="url" rel="index"><span itemprop="name">-英文演讲</span></a>
+                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">-Java</span></a>
                 </span>
             </span>
 
@@ -225,10 +228,22 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal.</p>
-<p>Now we are engaged in a great civil war, testing whether that nation, or any nation so conceived and so dedicated, can long endure. We are met on a great battle-field of that war. We have come to dedicate a portion of that field, as a final resting place for those who here gave their lives that that nation might live. It is altogether fitting and proper that we should do this.</p>
-<p>But, in a larger sense, we can not dedicate—we can not consecrate—we can not hallow—this ground. The brave men, living and dead, who struggled here, have consecrated it, far above our poor power to add or detract. The world will little note, nor long remember what we say here, but it can never forget what they did here. It is for us the living, rather, to be dedicated here to the unfinished work which they who fought here have thus far so nobly advanced. It is rather for us to be here dedicated to the great task remaining before us—that from these honored dead we take increased devotion to that cause for which they gave the last full measure of devotion—that we here highly resolve that these dead shall not have died in vain—that this nation, under God, shall have a new birth of freedom—and that government of the people, by the people, for the people, shall not perish from the earth.</p>
+        <p>参考：<a target="_blank" rel="noopener" href="https://pay.weixin.qq.com/static/product/product_index.shtml">https://pay.weixin.qq.com/static/product/product_index.shtml</a></p>
+<h3 id="基本流程"><a href="#基本流程" class="headerlink" title="基本流程"></a>基本流程</h3><p><img src="D:\BaiduNetdiskDownload\1、黑马程序员Java项目《苍穹外卖》企业级开发实战\讲义\day08\assets\image-20221214223910840.png" alt="image-20221214223910840"></p>
+<img src="C:\Users\L1835\AppData\Roaming\Typora\typora-user-images\image-20230908223011034.png" alt="image-20221214223910840" style="zoom: 50%;" />
 
+<h4 id="关键步骤："><a href="#关键步骤：" class="headerlink" title="关键步骤："></a>关键步骤：</h4><p>1.商户系统调用微信后台的一个接口；</p>
+<p>2.小程序调用 wx.request Payment,完成真正的付款操作;</p>
+<p>3.微信后台调用商户系统把支付结果通知给我们；</p>
+<h4 id="JSAPI下单"><a href="#JSAPI下单" class="headerlink" title="JSAPI下单"></a>JSAPI下单</h4><p>商户系统先调用该接口在微信支付服务后台生成预支付交易单，返回正确的预支付交易会话标识后再按Native、JSAPI、APP等不同场景生成交易串调起支付。</p>
+<h4 id="小程序调起支付"><a href="#小程序调起支付" class="headerlink" title="小程序调起支付"></a>小程序调起支付</h4><p>通过JSAPI下单接口获取到发起支付的必要参数prepay_id，然后使用微信支付提供的小程序方法调起小程序支付。</p>
+<h5 id="请求示例："><a href="#请求示例：" class="headerlink" title="请求示例："></a>请求示例：</h5><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">wx.requestPayment</span><br><span class="line">(</span><br><span class="line">  <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;timeStamp&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1414561699&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;nonceStr&quot;</span><span class="punctuation">:</span> <span class="string">&quot;5K8264ILTKCH16CQ2502SI8ZNMTM67VS&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;package&quot;</span><span class="punctuation">:</span> <span class="string">&quot;prepay_id=wx201410272009395522657a690389285100&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;signType&quot;</span><span class="punctuation">:</span> <span class="string">&quot;RSA&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;paySign&quot;</span><span class="punctuation">:</span> <span class="string">&quot;oR9d8PuhnIc+YZ8cBHFCwfgpaK9gd7vaRvkYD7rthRAZ\/X+QBhcCYL21N7cHCTUxbQ+EAt6Uy+lwSN22f5YZvI45MLko8Pfso0jm46v5hqcVwrk6uddkGuT+Cdvu4WBqDzaDjnNa5UK3GfE1Wfl2gHxIIY5lLdUgWFts17D4WuolLLkiFZV+JSHMvH7eaLdT9N5GBovBwu5yYKUR7skR8Fu+LozcSqQixnlEZUfyE55feLOQTUYzLmR9pNtPbPsu6WVhbNHMS3Ss2+AehHvz+n64GDmXxbX++IOBvm2olHu3PsOUGRwhudhVf7UcGcunXt8cqNjKNqZLhLw4jq\/xDg==&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;success&quot;</span><span class="punctuation">:</span>function(res)<span class="punctuation">&#123;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;fail&quot;</span><span class="punctuation">:</span>function(res)<span class="punctuation">&#123;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;complete&quot;</span><span class="punctuation">:</span>function(res)<span class="punctuation">&#123;</span><span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>可以直接调用requestPayment , 返回结果是代码中的success, fail, complete</p>
+<h3 id="微信支付开发的准备工作"><a href="#微信支付开发的准备工作" class="headerlink" title="微信支付开发的准备工作"></a>微信支付开发的准备工作</h3><h4 id="保证数据安全（待完善）"><a href="#保证数据安全（待完善）" class="headerlink" title="保证数据安全（待完善）"></a>保证数据安全（待完善）</h4><h5 id="获取微信支付平台证书"><a href="#获取微信支付平台证书" class="headerlink" title="获取微信支付平台证书"></a>获取微信支付平台证书</h5><h5 id="获取商户私钥文件"><a href="#获取商户私钥文件" class="headerlink" title="获取商户私钥文件"></a>获取商户私钥文件</h5><h4 id="调用商户系统"><a href="#调用商户系统" class="headerlink" title="调用商户系统"></a>调用商户系统</h4><p>微信后台会调用到商户系统给推送支付的结果,调用过程本质上是一个HTTP请求.</p>
+<p>内网穿透。通过<strong>cpolar软件</strong>可以获得一个临时域名，而这个临时域名是一个公网ip，这样，微信后台就可以请求到商户系统了。</p>
+<p>上线以后都会有公网ip，使用那个公网ip即可</p>
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4>
     </div>
 
     
@@ -239,11 +254,11 @@
 <div>
 <ul class="post-copyright">
   <li class="post-copyright-author">
-    <strong>本文作者： </strong>林肯
+    <strong>本文作者： </strong>LLCH Liu
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://example.com/2023/09/07/Hello-world/" title="底斯堡演讲">http://example.com/2023/09/07/Hello-world/</a>
+    <a href="http://example.com/2023/09/08/%E5%BC%80%E5%8F%91%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B/" title="微信支付小程序开发">http://example.com/2023/09/08/开发基本流程/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -254,7 +269,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E8%8B%B1%E6%96%87-%E6%BC%94%E8%AE%B2/" rel="tag"># -英文 -演讲</a>
+              <a href="/tags/%E5%BC%80%E5%8F%91-java/" rel="tag"># -开发 -java</a>
           </div>
 
         
@@ -262,11 +277,11 @@
 
         
     <div class="post-nav">
-      <div class="post-nav-item"></div>
       <div class="post-nav-item">
-    <a href="/2023/09/08/%E5%BC%80%E5%8F%91%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B/" rel="next" title="微信支付小程序开发">
-      微信支付小程序开发 <i class="fa fa-chevron-right"></i>
+    <a href="/2023/09/07/Hello-world/" rel="prev" title="底斯堡演讲">
+      <i class="fa fa-chevron-left"></i> 底斯堡演讲
     </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
