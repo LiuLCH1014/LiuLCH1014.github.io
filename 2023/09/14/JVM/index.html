@@ -27,13 +27,13 @@
 <meta property="og:site_name" content="Here We Go">
 <meta property="og:description" content="什么是JVM?Java Virtual Machine - java程序的运行环境（Java 二进制字节码的运行环境） 屏蔽Java代码与底层操作系统的差异  对外提供一致的运行环境（平台无关性） 自动内存管理，垃圾回收功能 数组下标越界检查（抛异常比新元素覆盖程序其他部分强） 多态  JRE :        JVM+基础类库（日期类等等IO类） **JDK ** :      JVM+编译工具">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202023-09-14%20221239.png">
+<meta property="og:image" content="http://example.com/1.png">
 <meta property="article:published_time" content="2023-09-14T12:35:51.000Z">
-<meta property="article:modified_time" content="2023-09-14T14:27:56.733Z">
+<meta property="article:modified_time" content="2023-09-15T03:55:48.095Z">
 <meta property="article:author" content="LLCH Liu">
 <meta property="article:tag" content="-JAVA -JVM">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202023-09-14%20221239.png">
+<meta name="twitter:image" content="http://example.com/1.png">
 
 <link rel="canonical" href="http://example.com/2023/09/14/JVM/">
 
@@ -195,10 +195,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-09-14 20:35:51 / 修改时间：22:27:56" itemprop="dateCreated datePublished" datetime="2023-09-14T20:35:51+08:00">2023-09-14</time>
+              <time title="创建时间：2023-09-14 20:35:51" itemprop="dateCreated datePublished" datetime="2023-09-14T20:35:51+08:00">2023-09-14</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-09-15 11:55:48" itemprop="dateModified" datetime="2023-09-15T11:55:48+08:00">2023-09-15</time>
+              </span>
 
           
             <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
@@ -230,7 +236,7 @@
 <p>**JDK ** :      JVM+编译工具（javac,  Javap，内存检测工具等等）</p>
 <p><strong>开发JavaSE程序</strong>：   JDK + IDE工具</p>
 <p><strong>开发JavaEE程序</strong>：   JDK+IDE工具+应用服务器（tomcat)</p>
-<h3 id="JVM组成"><a href="#JVM组成" class="headerlink" title="JVM组成:"></a>JVM组成:</h3><img src="/屏幕截图 2023-09-14 221239.png" style="zoom:50%;" />
+<h3 id="JVM组成"><a href="#JVM组成" class="headerlink" title="JVM组成:"></a>JVM组成:</h3><img src="/1.png" alt="1" style="zoom:60%;" />
 
 
 
@@ -239,7 +245,30 @@
 <p>方法执行时由执行引擎中的解释器逐行解释，即时编译器优化执行频繁调用的代码。</p>
 <p>GC会对堆中不再引用的对象垃圾回收。</p>
 <p>Java代码中不方便实现的功能，本地接口调用本地操作系统提供的功能方法</p>
-<h3 id="JVM内存结构"><a href="#JVM内存结构" class="headerlink" title="JVM内存结构"></a>JVM内存结构</h3>
+<h3 id="JVM内存结构"><a href="#JVM内存结构" class="headerlink" title="JVM内存结构"></a>JVM内存结构</h3><h4 id="程序计数器——Program-Counter-Register"><a href="#程序计数器——Program-Counter-Register" class="headerlink" title="程序计数器——Program Counter Register"></a>程序计数器——Program Counter Register</h4><p>记住下一条<strong>jvm指令</strong>的执行地址（寄存器）</p>
+<ul>
+<li><strong>线程私有</strong>  每个线程都有自己的register</li>
+<li>不会存在内存溢出</li>
+</ul>
+<h4 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h4><p>线程运行需要的内存空间</p>
+<p>不指定大小Linux，Oracle，macSO都是<strong>1024k</strong></p>
+<p>windows会根据虚拟内存影响栈的大小</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-Xss size</span><br><span class="line"></span><br><span class="line">//example</span><br><span class="line">-Xss 1m</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="栈帧"><a href="#栈帧" class="headerlink" title="栈帧"></a>栈帧</h5><p><em><strong>每个方法需要的内存</strong></em>（参数，局部变量，返回地址）、</p>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><h6 id="1-垃圾回收是否涉及栈内存？"><a href="#1-垃圾回收是否涉及栈内存？" class="headerlink" title="1.垃圾回收是否涉及栈内存？"></a>1.垃圾回收是否涉及栈内存？</h6><p>栈自动出栈，不需要垃圾回收管理栈内存</p>
+<h6 id="2-栈内存分配越大越好吗"><a href="#2-栈内存分配越大越好吗" class="headerlink" title="2.栈内存分配越大越好吗"></a>2.栈内存分配越大越好吗</h6><p>栈越大，线程数越少</p>
+<h6 id="3-方法内的局部变量是否线程安全"><a href="#3-方法内的局部变量是否线程安全" class="headerlink" title="3.方法内的局部变量是否线程安全"></a>3.方法内的局部变量是否线程安全</h6><p>这要看这个变量是对每个线程共享的，还是每个线程私有的。共享的不用考虑线程安全。</p>
+<p>如果是static，<strong>静态变量属于类</strong>，放在方法区，属于线程共享的数据。</p>
+<p>StringBuilder本来就不是线程安全的，如果用StringBuffer就是线程安全的。</p>
+<p>是不是线程安全不仅要看是否是方法内的局部变量，也要看是否逃离方法的作用范围。</p>
+<h6 id="4-栈—内存溢出"><a href="#4-栈—内存溢出" class="headerlink" title="4.栈—内存溢出"></a>4.栈—内存溢出</h6><ul>
+<li>线程请求的栈深度大于虚拟机所允许的最大深度，抛出StackOverflowError</li>
+<li>虚拟机的栈内存如果允许动态扩展，当栈容量无法申请到足够的内存抛出 OutOfMemoryError</li>
+</ul>
+
     </div>
 
     
