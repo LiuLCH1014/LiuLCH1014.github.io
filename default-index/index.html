@@ -198,7 +198,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-09-15 11:55:48" itemprop="dateModified" datetime="2023-09-15T11:55:48+08:00">2023-09-15</time>
+                <time title="修改时间：2023-09-16 10:36:28" itemprop="dateModified" datetime="2023-09-16T10:36:28+08:00">2023-09-16</time>
               </span>
 
           
@@ -233,20 +233,57 @@
 <p>方法执行时由执行引擎中的解释器逐行解释，即时编译器优化执行频繁调用的代码。</p>
 <p>GC会对堆中不再引用的对象垃圾回收。</p>
 <p>Java代码中不方便实现的功能，本地接口调用本地操作系统提供的功能方法</p>
-<h3 id="JVM内存结构"><a href="#JVM内存结构" class="headerlink" title="JVM内存结构"></a>JVM内存结构</h3><h4 id="程序计数器——Program-Counter-Register"><a href="#程序计数器——Program-Counter-Register" class="headerlink" title="程序计数器——Program Counter Register"></a>程序计数器——Program Counter Register</h4><p>记住下一条<strong>jvm指令</strong>的执行地址（寄存器）</p>
+<h2 id="JVM内存结构"><a href="#JVM内存结构" class="headerlink" title="JVM内存结构"></a>JVM内存结构</h2><h3 id="一、程序计数器——Program-Counter-Register"><a href="#一、程序计数器——Program-Counter-Register" class="headerlink" title="一、程序计数器——Program Counter Register"></a>一、程序计数器——Program Counter Register</h3><p>记住下一条<strong>jvm指令</strong>的执行地址（寄存器）</p>
 <ul>
 <li><strong>线程私有</strong>  每个线程都有自己的register</li>
 <li>不会存在内存溢出</li>
 </ul>
-<h4 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h4><p>线程运行需要的内存空间</p>
+<h3 id="二、栈"><a href="#二、栈" class="headerlink" title="二、栈"></a>二、栈</h3><p>线程运行需要的内存空间</p>
 <p>不指定大小Linux，Oracle，macSO都是<strong>1024k</strong></p>
 <p>windows会根据虚拟内存影响栈的大小</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-Xss size</span><br><span class="line"></span><br><span class="line">//example</span><br><span class="line">-Xss 1m</span><br></pre></td></tr></table></figure>
 
 
 
-<h5 id="栈帧"><a href="#栈帧" class="headerlink" title="栈帧"></a>栈帧</h5><p><em><strong>每个方法需要的内存</strong></em>（参数，局部变量，返回地址）、</p>
-<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><h6 id="1-垃圾回收是否涉及栈内存？"><a href="#1-垃圾回收是否涉及栈内存？" class="headerlink" title="1.垃圾回收是否涉及栈内存？"></a>1.垃圾回收是否涉及栈内存？</h6><p>栈自动出栈，不需要垃圾回收管理栈内存</p>
+<h4 id="1-栈帧"><a href="#1-栈帧" class="headerlink" title="1.栈帧"></a>1.栈帧</h4><p><em><strong>每个方法需要的内存</strong></em>（参数，局部变量，返回地址）</p>
+<h4 id="2-本地方法栈"><a href="#2-本地方法栈" class="headerlink" title="2.本地方法栈"></a>2.本地方法栈</h4><p>用c和c++编写的本地方法，来真正与操作系统和本地API打交道，可以间接使用本地方法，这些本地方法使用的栈就是本地方法栈。</p>
+<p>native方法有C&#x2F;C++底层实现。</p>
+<p>当调用本地方法时程序计数器为空。</p>
+<h4 id="3-问题诊断-案例"><a href="#3-问题诊断-案例" class="headerlink" title="3.问题诊断-案例"></a>3.问题诊断-案例</h4><h6 id="1-cpu占用过多"><a href="#1-cpu占用过多" class="headerlink" title="1)cpu占用过多"></a>1)cpu占用过多</h6><p> top 先定位到CPU 占用高的 Java 进程，再利用 top -Hp 进程id 来定位是哪个线程，最后再用 jstack 排查</p>
+<ul>
+<li><p>使用top命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用命令查看进程中的线程              pid：进程id，       tid：线程id</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ps H -eo pid,tid,%cpu</span><br><span class="line"></span><br><span class="line">ps H -eo pid,tid,%cpu | grep 进程id      //只留下感兴趣的进程</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将得到的线程id转化为16进制，在thread[x]，找出具体的thread</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jstack 线程id</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h6 id="2-迟迟得不到结果"><a href="#2-迟迟得不到结果" class="headerlink" title="2)迟迟得不到结果"></a>2)迟迟得不到结果</h6><p>可能出现了死锁。</p>
+<h3 id="三、Heap-堆"><a href="#三、Heap-堆" class="headerlink" title="三、Heap 堆"></a>三、Heap 堆</h3><p>   通过<strong>new</strong>关键字，创建对象都会使用堆内存</p>
+<ul>
+<li>它是线程共享的，堆中对象都需要考虑线程安全问题</li>
+<li>有垃圾回收机制</li>
+</ul>
+<h4 id="堆内存溢出"><a href="#堆内存溢出" class="headerlink" title="堆内存溢出"></a>堆内存溢出</h4><h5 id="堆内存诊断"><a href="#堆内存诊断" class="headerlink" title="堆内存诊断"></a>堆内存诊断</h5><ul>
+<li><p>jps工具</p>
+<p>查看当前系统哪些java进程</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jps</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>jmap工具</p>
+<p>查看堆内存占用情况，只能查看某一时刻的状态</p>
+<p>Heap Configuration:堆的设置</p>
+<p>Heap Usage &#x2F; Eden Space &#x2F;used：查看占用内存</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jmap -heap 进程id</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>jconsole工具</p>
+<p>图形界面工具，可以连续监测</p>
+</li>
+</ul>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h6 id="1-垃圾回收是否涉及栈内存？"><a href="#1-垃圾回收是否涉及栈内存？" class="headerlink" title="1.垃圾回收是否涉及栈内存？"></a>1.垃圾回收是否涉及栈内存？</h6><p>栈自动出栈，不需要垃圾回收管理栈内存</p>
 <h6 id="2-栈内存分配越大越好吗"><a href="#2-栈内存分配越大越好吗" class="headerlink" title="2.栈内存分配越大越好吗"></a>2.栈内存分配越大越好吗</h6><p>栈越大，线程数越少</p>
 <h6 id="3-方法内的局部变量是否线程安全"><a href="#3-方法内的局部变量是否线程安全" class="headerlink" title="3.方法内的局部变量是否线程安全"></a>3.方法内的局部变量是否线程安全</h6><p>这要看这个变量是对每个线程共享的，还是每个线程私有的。共享的不用考虑线程安全。</p>
 <p>如果是static，<strong>静态变量属于类</strong>，放在方法区，属于线程共享的数据。</p>
