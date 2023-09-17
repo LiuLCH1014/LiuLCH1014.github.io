@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://github.com/LiuLCH1014/LiuLCH1014.github.io/blob/main/filename/2.png">
 <meta property="og:image" content="https://github.com/LiuLCH1014/LiuLCH1014.github.io/blob/main/filename/3.png">
 <meta property="article:published_time" content="2023-09-14T12:35:51.000Z">
-<meta property="article:modified_time" content="2023-09-17T03:58:45.631Z">
+<meta property="article:modified_time" content="2023-09-17T04:01:20.560Z">
 <meta property="article:author" content="LLCH Liu">
 <meta property="article:tag" content="-JAVA -JVM">
 <meta name="twitter:card" content="summary">
@@ -205,7 +205,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-09-17 11:58:45" itemprop="dateModified" datetime="2023-09-17T11:58:45+08:00">2023-09-17</time>
+                <time title="修改时间：2023-09-17 12:01:20" itemprop="dateModified" datetime="2023-09-17T12:01:20+08:00">2023-09-17</time>
               </span>
 
           
@@ -323,6 +323,7 @@
 <p>一般配置虚拟机参数，会根据实际内存去设置-Xmx等参数信息，但经常忽略直接内存，从而导致动态扩展出现OutOfMemoeryError。</p>
 <p>NIO类引入了一种基于通道与缓存区的I&#x2F;O方式，可以使用Native函数库直接分配<strong>堆外内存</strong>，通过一个存储在Java堆中的DirectByteBuffer对象作为这块内存的引用进行操作。<strong>避免了在Java堆和Native堆中来回复制</strong>。</p>
 <p><img src="https://github.com/LiuLCH1014/LiuLCH1014.github.io/blob/main/filename/3.png" alt="https://github.com/LiuLCH1014/LiuLCH1014.github.io/blob/main/filename/3.png"></p>
+<p>通过两次缓冲区，效率不高</p>
 <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="垃圾回收是否涉及栈内存？"><a href="#垃圾回收是否涉及栈内存？" class="headerlink" title="垃圾回收是否涉及栈内存？"></a>垃圾回收是否涉及栈内存？</h3><p>栈自动出栈，不需要垃圾回收管理栈内存</p>
 <h3 id="栈内存分配越大越好吗"><a href="#栈内存分配越大越好吗" class="headerlink" title="栈内存分配越大越好吗"></a>栈内存分配越大越好吗</h3><p>栈越大，线程数越少</p>
 <h3 id="方法内的局部变量是否线程安全"><a href="#方法内的局部变量是否线程安全" class="headerlink" title="方法内的局部变量是否线程安全"></a>方法内的局部变量是否线程安全</h3><p>这要看这个变量是对每个线程共享的，还是每个线程私有的。共享的不用考虑线程安全。</p>
