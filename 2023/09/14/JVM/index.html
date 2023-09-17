@@ -27,13 +27,15 @@
 <meta property="og:site_name" content="Here We Go">
 <meta property="og:description" content="什么是JVM?Java Virtual Machine - java程序的运行环境（Java 二进制字节码的运行环境） 屏蔽Java代码与底层操作系统的差异  对外提供一致的运行环境（平台无关性） 自动内存管理，垃圾回收功能 数组下标越界检查（抛异常比新元素覆盖程序其他部分强） 多态  JRE :        JVM+基础类库（日期类等等IO类） **JDK ** :      JVM+编译工具">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/1.png">
+<meta property="og:image" content="http://example.com/filename/1.png">
+<meta property="og:image" content="http://example.com/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202023-09-16%20140953.png">
+<meta property="og:image" content="http://example.com/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202023-09-17%20114637.png">
 <meta property="article:published_time" content="2023-09-14T12:35:51.000Z">
-<meta property="article:modified_time" content="2023-09-16T15:58:47.882Z">
+<meta property="article:modified_time" content="2023-09-17T03:52:24.575Z">
 <meta property="article:author" content="LLCH Liu">
 <meta property="article:tag" content="-JAVA -JVM">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/1.png">
+<meta name="twitter:image" content="http://example.com/filename/1.png">
 
 <link rel="canonical" href="http://example.com/2023/09/14/JVM/">
 
@@ -203,7 +205,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-09-16 23:58:47" itemprop="dateModified" datetime="2023-09-16T23:58:47+08:00">2023-09-16</time>
+                <time title="修改时间：2023-09-17 11:52:24" itemprop="dateModified" datetime="2023-09-17T11:52:24+08:00">2023-09-17</time>
               </span>
 
           
@@ -236,10 +238,7 @@
 <p>**JDK ** :      JVM+编译工具（javac,  Javap，内存检测工具等等）</p>
 <p><strong>开发JavaSE程序</strong>：   JDK + IDE工具</p>
 <p><strong>开发JavaEE程序</strong>：   JDK+IDE工具+应用服务器（tomcat)</p>
-<h2 id="JVM组成"><a href="#JVM组成" class="headerlink" title="JVM组成:"></a>JVM组成:</h2><img src="/1.png" alt="1" style="zoom:60%;" />
-
-
-
+<h2 id="JVM组成"><a href="#JVM组成" class="headerlink" title="JVM组成:"></a>JVM组成:</h2><p><img src="/filename/1.png" alt="https://github.com/LiuLCH1014/LiuLCH1014.github.io/blob/main/filename/1.png"></p>
 <p>java源代码编译为二进制字节码以后(Java class),经过类加载器(classLoader),才能加载到JVM内存结构中被运行。</p>
 <p>类都是放在方法区，类创建的实例对象放在堆，实例对象调用方法时用到虚拟机栈等</p>
 <p>方法执行时由执行引擎中的解释器逐行解释，即时编译器优化执行频繁调用的代码。</p>
@@ -300,7 +299,8 @@
 
 
 <h3 id="方法区-Method-Area"><a href="#方法区-Method-Area" class="headerlink" title="方法区-Method Area"></a>方法区-Method Area</h3><p>会受到内存限制，抛出<strong>OutOfMemoryError</strong>异常</p>
-<p>![屏幕截图 2023-09-16 140953](&#x2F;屏幕截图 2023-09-16 140953.png)</p>
+<img src="/屏幕截图 2023-09-16 140953.png" alt="屏幕截图 2023-09-16 140953" style="zoom:50%;" />
+
 <p>方法区是所有java虚拟机线程的<strong>共享</strong>的区，用于存储已被虚拟机加载的类型信息，常量，静态变量，即时编译器编译后的代码缓存等数据</p>
 <p>JDK1.8版本之前方法区用的堆的内存，叫<strong>永久代</strong>，JDK1.8之后用的操作系统的内存，叫<strong>元空间</strong>。</p>
 <p>元空间被在本地内存中</p>
@@ -313,6 +313,20 @@
 <p>将字符串对象s1尝试放入串池，<strong>如果原来存在有并不会放入</strong>，<strong>还会在堆中</strong>，如果没有则放入串池，会把串池的对象返回。</p>
 <h4 id="StringTable"><a href="#StringTable" class="headerlink" title="StringTable"></a>StringTable</h4><p>stringtable是串池，<strong>串池是常量池中的一部分</strong>。</p>
 <p>垃圾回收不会发生在永久代(PermGen space)，如果永久代满了或者是超过了临界值，会触发完全垃圾回收(Full GC)。</p>
+<h5 id="stringTable性能调优"><a href="#stringTable性能调优" class="headerlink" title="stringTable性能调优"></a>stringTable性能调优</h5><ul>
+<li><p>主要调整hashTable桶的个数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:SringTableSize=×××</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>考虑字符串对象是否入池</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//example</span></span><br><span class="line">intern();</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="直接内存"><a href="#直接内存" class="headerlink" title="直接内存"></a>直接内存</h4><p>这部分被频繁引用，也会导致<strong>OutOfMemoryError</strong></p>
+<p>一般配置虚拟机参数，会根据实际内存去设置-Xmx等参数信息，但经常忽略直接内存，从而导致动态扩展出现OutOfMemoeryError。</p>
+<p>NIO类引入了一种基于通道与缓存区的I&#x2F;O方式，可以使用Native函数库直接分配<strong>堆外内存</strong>，通过一个存储在Java堆中的DirectByteBuffer对象作为这块内存的引用进行操作。<strong>避免了在Java堆和Native堆中来回复制</strong>。</p>
+<img src="/屏幕截图 2023-09-17 114637.png" style="zoom:60%;" />
+
+
+
 <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="垃圾回收是否涉及栈内存？"><a href="#垃圾回收是否涉及栈内存？" class="headerlink" title="垃圾回收是否涉及栈内存？"></a>垃圾回收是否涉及栈内存？</h3><p>栈自动出栈，不需要垃圾回收管理栈内存</p>
 <h3 id="栈内存分配越大越好吗"><a href="#栈内存分配越大越好吗" class="headerlink" title="栈内存分配越大越好吗"></a>栈内存分配越大越好吗</h3><p>栈越大，线程数越少</p>
 <h3 id="方法内的局部变量是否线程安全"><a href="#方法内的局部变量是否线程安全" class="headerlink" title="方法内的局部变量是否线程安全"></a>方法内的局部变量是否线程安全</h3><p>这要看这个变量是对每个线程共享的，还是每个线程私有的。共享的不用考虑线程安全。</p>
@@ -425,7 +439,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFJVM"><span class="nav-number">1.</span> <span class="nav-text">什么是JVM?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM%E7%BB%84%E6%88%90"><span class="nav-number">2.</span> <span class="nav-text">JVM组成:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84"><span class="nav-number">3.</span> <span class="nav-text">JVM内存结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8%E2%80%94%E2%80%94Program-Counter-Register"><span class="nav-number">3.1.</span> <span class="nav-text">程序计数器——Program Counter Register</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%88"><span class="nav-number">3.2.</span> <span class="nav-text">栈</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%88%E5%B8%A7"><span class="nav-number">3.2.1.</span> <span class="nav-text">栈帧</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88"><span class="nav-number">3.2.2.</span> <span class="nav-text">本地方法栈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E8%AF%8A%E6%96%AD-%E6%A1%88%E4%BE%8B"><span class="nav-number">3.2.3.</span> <span class="nav-text">问题诊断-案例</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#cpu%E5%8D%A0%E7%94%A8%E8%BF%87%E5%A4%9A"><span class="nav-number">3.2.3.1.</span> <span class="nav-text">cpu占用过多</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BF%9F%E8%BF%9F%E5%BE%97%E4%B8%8D%E5%88%B0%E7%BB%93%E6%9E%9C"><span class="nav-number">3.2.3.2.</span> <span class="nav-text">迟迟得不到结果</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Heap-%E5%A0%86"><span class="nav-number">3.3.</span> <span class="nav-text">Heap 堆</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A0%86%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E8%AF%8A%E6%96%AD"><span class="nav-number">3.3.1.</span> <span class="nav-text">堆内存溢出诊断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B"><span class="nav-number">3.3.2.</span> <span class="nav-text">案例</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%90%8E%E5%86%85%E5%AD%98%E8%BF%87%E9%AB%98"><span class="nav-number">3.3.2.1.</span> <span class="nav-text">垃圾回收后内存过高</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E5%8C%BA-Method-Area"><span class="nav-number">3.4.</span> <span class="nav-text">方法区-Method Area</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6%E5%B8%B8%E9%87%8F%E6%B1%A0-Runtime-Constant-Pool"><span class="nav-number">3.4.1.</span> <span class="nav-text">运行时常量池-Runtime Constant Pool</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#StringTable"><span class="nav-number">3.4.2.</span> <span class="nav-text">StringTable</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%98%AF%E5%90%A6%E6%B6%89%E5%8F%8A%E6%A0%88%E5%86%85%E5%AD%98%EF%BC%9F"><span class="nav-number">4.1.</span> <span class="nav-text">垃圾回收是否涉及栈内存？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%88%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E8%B6%8A%E5%A4%A7%E8%B6%8A%E5%A5%BD%E5%90%97"><span class="nav-number">4.2.</span> <span class="nav-text">栈内存分配越大越好吗</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E5%86%85%E7%9A%84%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%E6%98%AF%E5%90%A6%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8"><span class="nav-number">4.3.</span> <span class="nav-text">方法内的局部变量是否线程安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%88%E2%80%94%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA"><span class="nav-number">4.4.</span> <span class="nav-text">栈—内存溢出</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFJVM"><span class="nav-number">1.</span> <span class="nav-text">什么是JVM?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM%E7%BB%84%E6%88%90"><span class="nav-number">2.</span> <span class="nav-text">JVM组成:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84"><span class="nav-number">3.</span> <span class="nav-text">JVM内存结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8%E2%80%94%E2%80%94Program-Counter-Register"><span class="nav-number">3.1.</span> <span class="nav-text">程序计数器——Program Counter Register</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%88"><span class="nav-number">3.2.</span> <span class="nav-text">栈</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%88%E5%B8%A7"><span class="nav-number">3.2.1.</span> <span class="nav-text">栈帧</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88"><span class="nav-number">3.2.2.</span> <span class="nav-text">本地方法栈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E8%AF%8A%E6%96%AD-%E6%A1%88%E4%BE%8B"><span class="nav-number">3.2.3.</span> <span class="nav-text">问题诊断-案例</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#cpu%E5%8D%A0%E7%94%A8%E8%BF%87%E5%A4%9A"><span class="nav-number">3.2.3.1.</span> <span class="nav-text">cpu占用过多</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BF%9F%E8%BF%9F%E5%BE%97%E4%B8%8D%E5%88%B0%E7%BB%93%E6%9E%9C"><span class="nav-number">3.2.3.2.</span> <span class="nav-text">迟迟得不到结果</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Heap-%E5%A0%86"><span class="nav-number">3.3.</span> <span class="nav-text">Heap 堆</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A0%86%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E8%AF%8A%E6%96%AD"><span class="nav-number">3.3.1.</span> <span class="nav-text">堆内存溢出诊断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B"><span class="nav-number">3.3.2.</span> <span class="nav-text">案例</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%90%8E%E5%86%85%E5%AD%98%E8%BF%87%E9%AB%98"><span class="nav-number">3.3.2.1.</span> <span class="nav-text">垃圾回收后内存过高</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E5%8C%BA-Method-Area"><span class="nav-number">3.4.</span> <span class="nav-text">方法区-Method Area</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6%E5%B8%B8%E9%87%8F%E6%B1%A0-Runtime-Constant-Pool"><span class="nav-number">3.4.1.</span> <span class="nav-text">运行时常量池-Runtime Constant Pool</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#StringTable"><span class="nav-number">3.4.2.</span> <span class="nav-text">StringTable</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#stringTable%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98"><span class="nav-number">3.4.2.1.</span> <span class="nav-text">stringTable性能调优</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98"><span class="nav-number">3.4.3.</span> <span class="nav-text">直接内存</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%98%AF%E5%90%A6%E6%B6%89%E5%8F%8A%E6%A0%88%E5%86%85%E5%AD%98%EF%BC%9F"><span class="nav-number">4.1.</span> <span class="nav-text">垃圾回收是否涉及栈内存？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%88%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E8%B6%8A%E5%A4%A7%E8%B6%8A%E5%A5%BD%E5%90%97"><span class="nav-number">4.2.</span> <span class="nav-text">栈内存分配越大越好吗</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E5%86%85%E7%9A%84%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%E6%98%AF%E5%90%A6%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8"><span class="nav-number">4.3.</span> <span class="nav-text">方法内的局部变量是否线程安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%88%E2%80%94%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA"><span class="nav-number">4.4.</span> <span class="nav-text">栈—内存溢出</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
