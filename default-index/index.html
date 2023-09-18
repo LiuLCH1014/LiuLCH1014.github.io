@@ -198,7 +198,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-09-18 19:11:12" itemprop="dateModified" datetime="2023-09-18T19:11:12+08:00">2023-09-18</time>
+                <time title="修改时间：2023-09-18 22:16:58" itemprop="dateModified" datetime="2023-09-18T22:16:58+08:00">2023-09-18</time>
               </span>
 
           
@@ -415,7 +415,7 @@
 <p>运行简单，高效。但空间浪费大。</p>
 <p>存活率较高时就要进行多次复制操作，效率低。如果不想浪费50%空间，就要有额外的空间担保，以应对内存中所有对象100%存活的情况。</p>
 <hr>
-<h3 id="分代垃圾回收"><a href="#分代垃圾回收" class="headerlink" title="分代垃圾回收"></a>分代垃圾回收</h3><p><img src="/6.png"></p>
+<h3 id="分代垃圾回收"><a href="#分代垃圾回收" class="headerlink" title="分代垃圾回收"></a>分代垃圾回收</h3><p><img src="/filename/6.png"></p>
 <ul>
 <li>新生代空间不足时，触发 <strong>Minor GC</strong>，伊甸园和 from 存活的对象使用 copy 复制到 to 中，存活的对象年龄加 1并且<strong>交换 from 和to</strong>。</li>
 <li>再次创建对象，若新生代的伊甸园(eden space)又满了，则会再次触发 Minor GC（<strong>minor gc 会引发 stop the world</strong>，暂停其它用户的线程，等垃圾回收结束，用户线程才恢复运行），这时不仅会回收伊甸园中的垃圾，还会回收幸存区中的垃圾，再将活跃对象复制到幸存区TO中。回收以后会<strong>交换两个幸存区</strong>，并让幸存区中的对象寿命加1。</li>
@@ -471,33 +471,39 @@
 <p>幸村区比例：如果新生代是10M,当ratio&#x3D;8时，有8M是划给伊甸园的。剩下两等分，分给from和to。</p>
 <p>某个线程的内存溢出了而抛异常（out of memory），不会让其他的线程结束运行。这是因为当一个线程<strong>抛出OOM异常后</strong>，<strong>它所占据的内存资源会全部被释放掉</strong>，从而不会影响其他线程的运行，<strong>进程依然正常</strong></p>
 <hr>
-<h4 id="垃圾回收器"><a href="#垃圾回收器" class="headerlink" title="垃圾回收器"></a>垃圾回收器</h4><ul>
-<li><h5 id="串行2"><a href="#串行2" class="headerlink" title="串行2"></a>串行2</h5><p>单线程，堆内存较小，适合个人电脑。	</p>
-<p><strong>开启串行回收器</strong>：<code>XX:+UseSerialGC = Serial + SerialOld</code>；新生代**-Serial** ，老年代-<strong>SerialOld</strong></p>
-</li>
-<li><h5 id="吞吐量优先"><a href="#吞吐量优先" class="headerlink" title="吞吐量优先"></a>吞吐量优先</h5><p>多线程，堆内存较大，多核CPU。单位时间内，STW的时间最短。总时间最短。</p>
-</li>
-<li><h5 id="响应时间"><a href="#响应时间" class="headerlink" title="响应时间"></a>响应时间</h5><p>多线程，堆内存较大，多核CPU。尽可能让单次STW时间最短。</p>
-</li>
-</ul>
-<img src="/5.png" style="zoom:75%;" />
+<h4 id="垃圾回收器"><a href="#垃圾回收器" class="headerlink" title="垃圾回收器"></a>垃圾回收器</h4><h5 id="串行"><a href="#串行" class="headerlink" title="串行"></a>串行</h5><p>单线程，堆内存较小，适合个人电脑。	</p>
+<p><strong>开启串行回收器</strong>：新生代**-Serial** ，老年代-<strong>SerialOld</strong> ，vm参数：<code>XX:+UseSerialGC = Serial + SerialOld</code></p>
+<p><img src="/filename/5.png"></p>
+<p><strong>安全点</strong>：让其他线程都在这个点停下来，以免垃圾回收时移动对象地址，使得其他线程找不到被移动的对象。安全点位置的选取基本上是以“<strong>是否具有让程序长时间执行的特征</strong>”为标准 进行选定的,例如方法调用、循环跳转、异常跳转 等都属于指令序列复用，所以只有具有这些功能的指令才会产生安全点。</p>
+<p><strong>阻塞</strong>：因为是串行的，所以只有一个垃圾回收线程。且在该线程执行回收工作时，其他线程进入<strong>阻塞</strong>状态。</p>
+<hr>
+<h5 id="吞吐量优先"><a href="#吞吐量优先" class="headerlink" title="吞吐量优先"></a>吞吐量优先</h5><p>多线程，堆内存较大，多核CPU。单位时间内，STW的时间最短。总时间最短。</p>
+<p><strong>开启垃圾回收器</strong>：vm参数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:+UseParallelGC   -XX:+UseParalleOldGC</span><br></pre></td></tr></table></figure>
 
+<p>1.8都默认开启前者代表是新生代的垃圾回收器，使用的是复制算法；后者工作在老年代，采用标记整理算法。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:ParallelGCThreads=n</span><br></pre></td></tr></table></figure>
 
+<p>控制ParallelGC运行时的线程数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:+UseAdaptiveSizePolicy</span><br></pre></td></tr></table></figure>
 
+<p>新生代自适应大小调整策略</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:GCTimeRatio=ratio</span><br></pre></td></tr></table></figure>
 
+<p>调节垃圾回收时间和总时间的占比。1&#x2F;(ratio+1)，垃圾回收总时间占比</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:MaxGCPauseMillis=ms</span><br></pre></td></tr></table></figure>
 
+<p>每次垃圾回收最大暂停毫秒数</p>
+<p><img src="/filename/7.png"></p>
+<hr>
+<h5 id="响应时间"><a href="#响应时间" class="headerlink" title="响应时间"></a>响应时间</h5><p>多线程，-堆内存较大，多核CPU。尽可能让单次STW时间最短。</p>
+<p><strong>vm参数：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:+UseConcMarkSweepGC     -XX:+UseParNewGC</span><br></pre></td></tr></table></figure>
 
+<p>基于标记清除算法的垃圾回收器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
 
-
-
-
-
-
-
-
-
-
-
+<p><img src="/filename/8.png"></p>
 
       
     </div>
