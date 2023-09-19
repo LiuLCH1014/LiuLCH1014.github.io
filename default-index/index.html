@@ -192,7 +192,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-09-19 17:51:55 / 修改时间：17:54:13" itemprop="dateCreated datePublished" datetime="2023-09-19T17:51:55+08:00">2023-09-19</time>
+              <time title="创建时间：2023-09-19 17:51:55 / 修改时间：23:31:39" itemprop="dateCreated datePublished" datetime="2023-09-19T17:51:55+08:00">2023-09-19</time>
             </span>
 
           
@@ -206,7 +206,40 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="调优经验"><a href="#调优经验" class="headerlink" title="调优经验"></a>调优经验</h1>
+          <h1 id="调优经验"><a href="#调优经验" class="headerlink" title="调优经验"></a>调优经验</h1><h2 id="GC调优"><a href="#GC调优" class="headerlink" title="GC调优"></a>GC调优</h2><h3 id="前置经验"><a href="#前置经验" class="headerlink" title="前置经验"></a>前置经验</h3><h4 id="经常发生GC"><a href="#经常发生GC" class="headerlink" title="经常发生GC"></a><strong>经常发生GC</strong></h4><ul>
+<li><p>数据太多</p>
+<p>resultSet &#x3D;statement.executeQuery(“select * from 大表 limit in”)</p>
+</li>
+<li><p>数据表示太臃肿？</p>
+<p>只显示用户一部分数据就够。</p>
+</li>
+<li><p>是否存在内存泄露</p>
+<p>长时间存活对象比如（static），尝试软弱引用，第三方缓存实现</p>
+</li>
+</ul>
+<h4 id="新生代调优"><a href="#新生代调优" class="headerlink" title="新生代调优"></a><strong>新生代调优</strong></h4><ul>
+<li>TLAB thread-local allocation buffer（可防止多个线程创建对象时的互相干扰混乱）</li>
+<li>当新生代发生垃圾回收（新生代都是复制算法），在Eden区域及幸存区<strong>from</strong>对象复制到<strong>to</strong>中。</li>
+<li>Oracle建议新生代大于1&#x2F;4并且小于1&#x2F;2 overall heap size。</li>
+<li><code>-XX:+PrintTenuringDistribution</code> 可以显示详细信息</li>
+</ul>
+<h4 id="老年代内存预设"><a href="#老年代内存预设" class="headerlink" title="老年代内存预设"></a>老年代内存预设</h4><p><code>-XX:CMSInitiatingOccupancyFraction=percent</code>（越大越好，twitter工程师建议设置为0。一般设置为75%~80%）</p>
+<h3 id="实战案例"><a href="#实战案例" class="headerlink" title="实战案例"></a>实战案例</h3><h4 id="Full-GC和Minor-GC频繁"><a href="#Full-GC和Minor-GC频繁" class="headerlink" title="Full GC和Minor GC频繁"></a>Full GC和Minor GC频繁</h4><p>空间紧张，先从新生代开始看，可能是新生代空间太小的原因，新生代空间宽裕了就不再那么频繁了。</p>
+<h4 id="请求高峰期发生Full-GC，单次暂停时间特别长（CMS）"><a href="#请求高峰期发生Full-GC，单次暂停时间特别长（CMS）" class="headerlink" title="请求高峰期发生Full GC，单次暂停时间特别长（CMS）"></a>请求高峰期发生Full GC，单次暂停时间特别长（CMS）</h4><p>查看GC日志，要扫描整个堆内存。发现是重新扫描时间过长，使用<code>-XX:+CMSScavengeBeforceRemark</code>在重新你扫描前进行一次垃圾回收</p>
+<hr>
+<h3 id="线程诊断"><a href="#线程诊断" class="headerlink" title="线程诊断"></a>线程诊断</h3><h3 id="实战案例-1"><a href="#实战案例-1" class="headerlink" title="实战案例"></a>实战案例</h3><h4 id="cpu占用过多"><a href="#cpu占用过多" class="headerlink" title="cpu占用过多"></a>cpu占用过多</h4><p> top 先定位到CPU 占用高的 Java 进程，再利用 top -Hp 进程id 来定位是哪个线程，最后再用 jstack 排查</p>
+<ul>
+<li><p>使用top命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用命令查看进程中的线程              pid：进程id，       tid：线程id</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ps H -eo pid,tid,%cpu</span><br><span class="line"></span><br><span class="line">ps H -eo pid,tid,%cpu | grep 进程id      //只留下感兴趣的进程</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将得到的线程id转化为16进制，在thread[x]，找出具体的thread</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jstack 线程id</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="迟迟得不到结果"><a href="#迟迟得不到结果" class="headerlink" title="迟迟得不到结果"></a>迟迟得不到结果</h4><p>可能出现了死锁。</p>
+
       
     </div>
 
@@ -250,7 +283,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-09-19 17:50:14 / 修改时间：17:54:31" itemprop="dateCreated datePublished" datetime="2023-09-19T17:50:14+08:00">2023-09-19</time>
+              <time title="创建时间：2023-09-19 17:50:14 / 修改时间：23:27:04" itemprop="dateCreated datePublished" datetime="2023-09-19T17:50:14+08:00">2023-09-19</time>
             </span>
 
           
@@ -264,7 +297,61 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="查看虚拟机运行参数"><a href="#查看虚拟机运行参数" class="headerlink" title="查看虚拟机运行参数"></a>查看虚拟机运行参数</h3><p><code>java -XX:+PrintFlagsFinal -version | grep GC</code></p>
+          <h4 id="查看虚拟机运行参数"><a href="#查看虚拟机运行参数" class="headerlink" title="查看虚拟机运行参数"></a>查看虚拟机运行参数</h4><p><code>java -XX:+PrintFlagsFinal -version | grep GC</code></p>
+<h4 id="显示新老年代详细信息"><a href="#显示新老年代详细信息" class="headerlink" title="显示新老年代详细信息"></a>显示新老年代详细信息</h4><p><code>-XX:+PrintTenuringDistribution</code></p>
+<h4 id="老年代内存预设"><a href="#老年代内存预设" class="headerlink" title="老年代内存预设"></a>老年代内存预设</h4><p><code>-XX:CMSInitiatingOccupancyFraction=percent</code>（越大越好，twitter工程师建议设置为0。一般设置为75%~80%）</p>
+<h4 id="堆内存溢出诊断"><a href="#堆内存溢出诊断" class="headerlink" title="堆内存溢出诊断"></a>堆内存溢出诊断</h4><p>可以通过<strong>反编译</strong><code>javac xxx.java</code>来查看类的信息</p>
+<ul>
+<li><p>jps工具</p>
+<p>查看当前系统哪些java进程</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jps</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>jmap工具</p>
+<p>查看堆内存占用情况，只能查看某一时刻的状态</p>
+<p>Heap Configuration:堆的设置</p>
+<p>Heap Usage &#x2F; Eden Space &#x2F;used：查看占用内存</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jmap -heap 进程id</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>jconsole工具</p>
+<p>图形界面工具，可以连续监测</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jconsole</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h4><h5 id="垃圾回收后内存过高"><a href="#垃圾回收后内存过高" class="headerlink" title="垃圾回收后内存过高"></a>垃圾回收后内存过高</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jvisualvm</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="吞吐量优先-Parallel-Scavenge收集器"><a href="#吞吐量优先-Parallel-Scavenge收集器" class="headerlink" title="吞吐量优先(Parallel Scavenge收集器)"></a>吞吐量优先(Parallel Scavenge收集器)</h4><p>多线程，堆内存较大，多核CPU。单位时间内，STW的时间最短。总时间最短。</p>
+<p><strong>开启垃圾回收器</strong>：vm参数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:+UseParallelGC~-XX:+UseParalleOldGC</span><br></pre></td></tr></table></figure>
+
+<p>1.8都默认开启前者代表是新生代的垃圾回收器，使用的是复制算法；后者工作在老年代，采用标记整理算法。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:ParallelGCThreads=n</span><br></pre></td></tr></table></figure>
+
+<p>控制ParallelGC运行时的线程数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:+UseAdaptiveSizePolicy</span><br></pre></td></tr></table></figure>
+
+<p>新生代自适应大小调整策略</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:GCTimeRatio=ratio</span><br></pre></td></tr></table></figure>
+
+<p>调节垃圾回收时间和总时间的占比。1&#x2F;(ratio+1)，垃圾回收总时间占比</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:MaxGCPauseMillis=ms</span><br></pre></td></tr></table></figure>
+
+<p>每次垃圾回收最大暂停毫秒数</p>
+<h4 id="响应时间优先（CMS"><a href="#响应时间优先（CMS" class="headerlink" title="响应时间优先（CMS)"></a>响应时间优先（CMS)</h4><p>多线程，-堆内存较大，多核CPU。尽可能让单次STW时间最短。适用于关注响应速度的服务</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:+UseConcMarkSweepGC-XX:+UseParNewGC~SerialOld</span><br></pre></td></tr></table></figure>
+
+<p>基于标记清除算法的垃圾回收器。该算法导致过度内存碎片,分配对象时MinorGC不足，老年代也不足，导致并发失败，CMSGC退化为SerialOld，单线程串行的垃圾回收。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:ParallelGCThreads=n~-XX:ConGCThreads=threads</span><br></pre></td></tr></table></figure>
+
+<p>前者：并行的垃圾回收线程数，一般跟cpu核数一样。</p>
+<p>后者：并发的垃圾回收线程数，一般设为并行线程数的四分之一。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:CMSInitiatingOccupancyFraction=percent</span><br></pre></td></tr></table></figure>
+
+<p>作用：并发清理的时候会产生新的垃圾，不能等到内存不足了才去清理。要预留空间给浮动垃圾。值设置的越小，触发时机越早。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:+CMSScavengeBeforceRemark</span><br></pre></td></tr></table></figure>
+
+<p>作用：在重新标记前对新生代的进行垃圾回收，新生代存活对象少，减轻重新标记压力。（+打开，-关闭）</p>
 
       
     </div>
@@ -315,7 +402,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-09-19 17:50:46" itemprop="dateModified" datetime="2023-09-19T17:50:46+08:00">2023-09-19</time>
+                <time title="修改时间：2023-09-19 23:27:18" itemprop="dateModified" datetime="2023-09-19T23:27:18+08:00">2023-09-19</time>
               </span>
 
           
@@ -376,19 +463,6 @@
 <h4 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h4><p>用c和c++编写的本地方法，来真正与操作系统和本地API打交道，可以间接使用本地方法，这些本地方法使用的栈就是本地方法栈。</p>
 <p>native方法有C&#x2F;C++底层实现。</p>
 <p>当调用本地方法时程序计数器为空。</p>
-<hr>
-<h4 id="问题诊断-案例"><a href="#问题诊断-案例" class="headerlink" title="问题诊断-案例"></a>问题诊断-案例</h4><h5 id="cpu占用过多"><a href="#cpu占用过多" class="headerlink" title="cpu占用过多"></a>cpu占用过多</h5><p> top 先定位到CPU 占用高的 Java 进程，再利用 top -Hp 进程id 来定位是哪个线程，最后再用 jstack 排查</p>
-<ul>
-<li><p>使用top命令</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用命令查看进程中的线程              pid：进程id，       tid：线程id</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ps H -eo pid,tid,%cpu</span><br><span class="line"></span><br><span class="line">ps H -eo pid,tid,%cpu | grep 进程id      //只留下感兴趣的进程</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>将得到的线程id转化为16进制，在thread[x]，找出具体的thread</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jstack 线程id</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h5 id="迟迟得不到结果"><a href="#迟迟得不到结果" class="headerlink" title="迟迟得不到结果"></a>迟迟得不到结果</h5><p>可能出现了死锁。</p>
 <hr>
 <h3 id="Heap-堆"><a href="#Heap-堆" class="headerlink" title="Heap 堆"></a>Heap 堆</h3><p>   通过<strong>new</strong>关键字，创建对象都会使用堆内存</p>
 <ul>
@@ -621,7 +695,6 @@
 <p><img src="/filename/7.png"></p>
 <hr>
 <h4 id="响应时间优先（CMS"><a href="#响应时间优先（CMS" class="headerlink" title="响应时间优先（CMS)"></a>响应时间优先（CMS)</h4><p>多线程，-堆内存较大，多核CPU。尽可能让单次STW时间最短。适用于关注响应速度的服务</p>
-<p><strong>vm参数：</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:+UseConcMarkSweepGC-XX:+UseParNewGC~SerialOld</span><br></pre></td></tr></table></figure>
 
 <p>基于标记清除算法的垃圾回收器。</p>

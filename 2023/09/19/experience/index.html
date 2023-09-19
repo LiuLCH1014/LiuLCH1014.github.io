@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":false,"nav":null,"activeClass":"livere"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="调优经验">
+  <meta name="description" content="调优经验GC调优前置经验经常发生GC 数据太多 resultSet &#x3D;statement.executeQuery(“select * from 大表 limit in”)  数据表示太臃肿？ 只显示用户一部分数据就够。  是否存在内存泄露 长时间存活对象比如（static），尝试软弱引用，第三方缓存实现   新生代调优 TLAB thread-local allocation buff">
 <meta property="og:type" content="article">
 <meta property="og:title" content="调优经验">
 <meta property="og:url" content="http://example.com/2023/09/19/experience/index.html">
 <meta property="og:site_name" content="Here We Go">
-<meta property="og:description" content="调优经验">
+<meta property="og:description" content="调优经验GC调优前置经验经常发生GC 数据太多 resultSet &#x3D;statement.executeQuery(“select * from 大表 limit in”)  数据表示太臃肿？ 只显示用户一部分数据就够。  是否存在内存泄露 长时间存活对象比如（static），尝试软弱引用，第三方缓存实现   新生代调优 TLAB thread-local allocation buff">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-09-19T09:51:55.000Z">
-<meta property="article:modified_time" content="2023-09-19T09:54:13.865Z">
+<meta property="article:modified_time" content="2023-09-19T15:31:39.841Z">
 <meta property="article:author" content="LLCH Liu">
 <meta property="article:tag" content="-JVM -Java">
 <meta name="twitter:card" content="summary">
@@ -195,7 +195,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-09-19 17:51:55 / 修改时间：17:54:13" itemprop="dateCreated datePublished" datetime="2023-09-19T17:51:55+08:00">2023-09-19</time>
+              <time title="创建时间：2023-09-19 17:51:55 / 修改时间：23:31:39" itemprop="dateCreated datePublished" datetime="2023-09-19T17:51:55+08:00">2023-09-19</time>
             </span>
 
           
@@ -216,7 +216,40 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="调优经验"><a href="#调优经验" class="headerlink" title="调优经验"></a>调优经验</h1>
+        <h1 id="调优经验"><a href="#调优经验" class="headerlink" title="调优经验"></a>调优经验</h1><h2 id="GC调优"><a href="#GC调优" class="headerlink" title="GC调优"></a>GC调优</h2><h3 id="前置经验"><a href="#前置经验" class="headerlink" title="前置经验"></a>前置经验</h3><h4 id="经常发生GC"><a href="#经常发生GC" class="headerlink" title="经常发生GC"></a><strong>经常发生GC</strong></h4><ul>
+<li><p>数据太多</p>
+<p>resultSet &#x3D;statement.executeQuery(“select * from 大表 limit in”)</p>
+</li>
+<li><p>数据表示太臃肿？</p>
+<p>只显示用户一部分数据就够。</p>
+</li>
+<li><p>是否存在内存泄露</p>
+<p>长时间存活对象比如（static），尝试软弱引用，第三方缓存实现</p>
+</li>
+</ul>
+<h4 id="新生代调优"><a href="#新生代调优" class="headerlink" title="新生代调优"></a><strong>新生代调优</strong></h4><ul>
+<li>TLAB thread-local allocation buffer（可防止多个线程创建对象时的互相干扰混乱）</li>
+<li>当新生代发生垃圾回收（新生代都是复制算法），在Eden区域及幸存区<strong>from</strong>对象复制到<strong>to</strong>中。</li>
+<li>Oracle建议新生代大于1&#x2F;4并且小于1&#x2F;2 overall heap size。</li>
+<li><code>-XX:+PrintTenuringDistribution</code> 可以显示详细信息</li>
+</ul>
+<h4 id="老年代内存预设"><a href="#老年代内存预设" class="headerlink" title="老年代内存预设"></a>老年代内存预设</h4><p><code>-XX:CMSInitiatingOccupancyFraction=percent</code>（越大越好，twitter工程师建议设置为0。一般设置为75%~80%）</p>
+<h3 id="实战案例"><a href="#实战案例" class="headerlink" title="实战案例"></a>实战案例</h3><h4 id="Full-GC和Minor-GC频繁"><a href="#Full-GC和Minor-GC频繁" class="headerlink" title="Full GC和Minor GC频繁"></a>Full GC和Minor GC频繁</h4><p>空间紧张，先从新生代开始看，可能是新生代空间太小的原因，新生代空间宽裕了就不再那么频繁了。</p>
+<h4 id="请求高峰期发生Full-GC，单次暂停时间特别长（CMS）"><a href="#请求高峰期发生Full-GC，单次暂停时间特别长（CMS）" class="headerlink" title="请求高峰期发生Full GC，单次暂停时间特别长（CMS）"></a>请求高峰期发生Full GC，单次暂停时间特别长（CMS）</h4><p>查看GC日志，要扫描整个堆内存。发现是重新扫描时间过长，使用<code>-XX:+CMSScavengeBeforceRemark</code>在重新你扫描前进行一次垃圾回收</p>
+<hr>
+<h3 id="线程诊断"><a href="#线程诊断" class="headerlink" title="线程诊断"></a>线程诊断</h3><h3 id="实战案例-1"><a href="#实战案例-1" class="headerlink" title="实战案例"></a>实战案例</h3><h4 id="cpu占用过多"><a href="#cpu占用过多" class="headerlink" title="cpu占用过多"></a>cpu占用过多</h4><p> top 先定位到CPU 占用高的 Java 进程，再利用 top -Hp 进程id 来定位是哪个线程，最后再用 jstack 排查</p>
+<ul>
+<li><p>使用top命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用命令查看进程中的线程              pid：进程id，       tid：线程id</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ps H -eo pid,tid,%cpu</span><br><span class="line"></span><br><span class="line">ps H -eo pid,tid,%cpu | grep 进程id      //只留下感兴趣的进程</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将得到的线程id转化为16进制，在thread[x]，找出具体的thread</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jstack 线程id</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="迟迟得不到结果"><a href="#迟迟得不到结果" class="headerlink" title="迟迟得不到结果"></a>迟迟得不到结果</h4><p>可能出现了死锁。</p>
+
     </div>
 
     
@@ -318,7 +351,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B0%83%E4%BC%98%E7%BB%8F%E9%AA%8C"><span class="nav-number">1.</span> <span class="nav-text">调优经验</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B0%83%E4%BC%98%E7%BB%8F%E9%AA%8C"><span class="nav-number">1.</span> <span class="nav-text">调优经验</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#GC%E8%B0%83%E4%BC%98"><span class="nav-number">1.1.</span> <span class="nav-text">GC调优</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E7%BB%8F%E9%AA%8C"><span class="nav-number">1.1.1.</span> <span class="nav-text">前置经验</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%8F%E5%B8%B8%E5%8F%91%E7%94%9FGC"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">经常发生GC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B0%E7%94%9F%E4%BB%A3%E8%B0%83%E4%BC%98"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">新生代调优</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%80%81%E5%B9%B4%E4%BB%A3%E5%86%85%E5%AD%98%E9%A2%84%E8%AE%BE"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">老年代内存预设</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E6%88%98%E6%A1%88%E4%BE%8B"><span class="nav-number">1.1.2.</span> <span class="nav-text">实战案例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Full-GC%E5%92%8CMinor-GC%E9%A2%91%E7%B9%81"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">Full GC和Minor GC频繁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%B7%E6%B1%82%E9%AB%98%E5%B3%B0%E6%9C%9F%E5%8F%91%E7%94%9FFull-GC%EF%BC%8C%E5%8D%95%E6%AC%A1%E6%9A%82%E5%81%9C%E6%97%B6%E9%97%B4%E7%89%B9%E5%88%AB%E9%95%BF%EF%BC%88CMS%EF%BC%89"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">请求高峰期发生Full GC，单次暂停时间特别长（CMS）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E8%AF%8A%E6%96%AD"><span class="nav-number">1.1.3.</span> <span class="nav-text">线程诊断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E6%88%98%E6%A1%88%E4%BE%8B-1"><span class="nav-number">1.1.4.</span> <span class="nav-text">实战案例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#cpu%E5%8D%A0%E7%94%A8%E8%BF%87%E5%A4%9A"><span class="nav-number">1.1.4.1.</span> <span class="nav-text">cpu占用过多</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9F%E8%BF%9F%E5%BE%97%E4%B8%8D%E5%88%B0%E7%BB%93%E6%9E%9C"><span class="nav-number">1.1.4.2.</span> <span class="nav-text">迟迟得不到结果</span></a></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
