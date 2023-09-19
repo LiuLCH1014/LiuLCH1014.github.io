@@ -198,7 +198,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-09-19 10:23:15" itemprop="dateModified" datetime="2023-09-19T10:23:15+08:00">2023-09-19</time>
+                <time title="修改时间：2023-09-19 13:51:22" itemprop="dateModified" datetime="2023-09-19T13:51:22+08:00">2023-09-19</time>
               </span>
 
           
@@ -472,13 +472,14 @@
 <p>某个线程的内存溢出了而抛异常（out of memory），不会让其他的线程结束运行。这是因为当一个线程<strong>抛出OOM异常后</strong>，<strong>它所占据的内存资源会全部被释放掉</strong>，从而不会影响其他线程的运行，<strong>进程依然正常</strong></p>
 <hr>
 <h4 id="垃圾收集器"><a href="#垃圾收集器" class="headerlink" title="垃圾收集器"></a>垃圾收集器</h4><p>Serial收集器–&gt;Parallel–&gt;Concurrent Mark Sweep(CMS)和Garbage First(G1)收集器–&gt;Shenandoah和ZGC</p>
+<hr>
 <h5 id="Serial收集器"><a href="#Serial收集器" class="headerlink" title="Serial收集器"></a>Serial收集器</h5><p>单线程工作的收集器，他在垃圾收集时，必须暂停其他所有工作，直到他完成收集。</p>
 <p>新生代采用复制算法，老生代采用标记整理算法。</p>
 <p><img src="/filename/9.png"></p>
+<hr>
 <p><strong>ParNew收集器</strong></p>
 <p>是Serial收集器的<strong>多线程并行版本</strong>，除使用多线程外基本与Serial收集器基本一致。目前只有它与CMS收集器配合工作。Parnew收集器是激活CMS后（使用<code>-XX:+UseConcMarkSweepGC</code>)的默认新生代收集器。</p>
 <p><img src="/filename/10.png"></p>
-<p>​	</p>
 <p><strong>开启串行回收器</strong>：新生代**-Serial** ，老年代-<strong>SerialOld</strong> ，vm参数：<code>XX:+UseSerialGC = Serial + SerialOld</code></p>
 <p><img src="/filename/5.png"></p>
 <p><strong>安全点</strong>：让其他线程都在这个点停下来，以免垃圾回收时移动对象地址，使得其他线程找不到被移动的对象。安全点位置的选取基本上是以“<strong>是否具有让程序长时间执行的特征</strong>”为标准 进行选定的,例如方法调用、循环跳转、异常跳转 等都属于指令序列复用，所以只有具有这些功能的指令才会产生安全点。</p>
@@ -521,6 +522,17 @@
 <p>作用：在重新标记前对新生代的进行垃圾回收，新生代存活对象少，减轻重新标记压力。（+打开，-关闭）</p>
 <p><img src="/filename/8.png"></p>
 <p>初始标记只会列举根对象，非常快。用户线程就会恢复运行，垃圾回收线程就会并发标记，把剩余垃圾标记。重新标记再次STW，因为在之前那并发标记期间存在新的引用，影响标记。</p>
+<hr>
+<h5 id="Garbage-First收集器"><a href="#Garbage-First收集器" class="headerlink" title="Garbage First收集器"></a>Garbage First收集器</h5><blockquote>
+<p><strong>Young Collection–&gt;YoungCollection+Concurrent Mark–&gt;Mixed Collection–&gt;Young Collection</strong></p>
+</blockquote>
+<p><img src="/1.jpg"></p>
+<h6 id="Young-Collection"><a href="#Young-Collection" class="headerlink" title="Young Collection"></a>Young Collection</h6><p>新创建的对象一开始放在Eden区域，当逐渐被占满，触发一次垃圾回收（当然和其他一样有<strong>STW</strong>，但比较短），以<strong>copy的算法</strong>放入幸存区。一定情况下（上面已说明）幸存区会触发垃圾回收（部分进入老年代）</p>
+<hr>
+<h6 id="YoungCollection-Concurrent-Mark"><a href="#YoungCollection-Concurrent-Mark" class="headerlink" title="YoungCollection+Concurrent Mark"></a>YoungCollection+Concurrent Mark</h6><p>在新生代GC时会进行GC Root的初始标记。</p>
+<p>老年代占用堆空间达到阈值时，进行并发标记（no STW），vm参数：     <code>-XX:InitiatingHeapOccupancyPercent=percent</code>。</p>
+<hr>
+<h6 id="Mixed-Collection"><a href="#Mixed-Collection" class="headerlink" title="Mixed Collection"></a>Mixed Collection</h6><p>并发标记后，老年代也要回收，部分老年会通过复制算法复制到新的老年代区（多少取决于设置的暂停时间<code>-XX:MaxGCPauseMillis=ms</code>)。</p>
 
       
     </div>
