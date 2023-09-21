@@ -167,6 +167,138 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/09/21/synchronized/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="LLCH Liu">
+      <meta itemprop="description" content="Here we go!!!!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Here We Go">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/09/21/synchronized/" class="post-title-link" itemprop="url">synchronized</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-09-21 15:52:56 / 修改时间：17:06:01" itemprop="dateCreated datePublished" datetime="2023-09-21T15:52:56+08:00">2023-09-21</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>synchronized关键字解决的是多个线程之间访问资源的同步性，synchronized 翻译为中文的意思是同步，也称之为”同步锁“。</p>
+<p>synchronized的作用是保证在同一时刻， 被修饰的代码块或方法只会有一个线程执行，以达到保证并发安全的效果。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">        <span class="type">Object</span> <span class="variable">lock</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Object</span>();</span><br><span class="line">        <span class="keyword">synchronized</span> (lock) &#123;</span><br><span class="line">            System.out.println(i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">Code:</span><br><span class="line">     stack=2, locals=5, args_size=1</span><br><span class="line">        0: bipush        10</span><br><span class="line">        2: istore_1</span><br><span class="line">        3: new           #2                  // class java/lang/Object</span><br><span class="line">        6: dup</span><br><span class="line">        7: invokespecial #1                  // Method java/lang/Object.&quot;&lt;init&gt;&quot;:()V</span><br><span class="line">       10: astore_2</span><br><span class="line">       11: aload_2</span><br><span class="line">       12: dup</span><br><span class="line">       13: astore_3</span><br><span class="line">       14: monitorenter //加锁</span><br><span class="line">       15: getstatic     #3                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">       18: iload_1</span><br><span class="line">       19: invokevirtual #4                  // Method java/io/PrintStream.println:(I)V</span><br><span class="line">      astore_3</span><br><span class="line">       23: monitorexit //解锁</span><br><span class="line">       24: goto          34</span><br><span class="line">       //异常操作</span><br><span class="line">       27: astore        4</span><br><span class="line">       29: aload_3</span><br><span class="line">       30: monitorexit //解锁</span><br><span class="line">       31: aload         4</span><br><span class="line">       33: athrow</span><br><span class="line">       34: return</span><br><span class="line">     Exception table:</span><br><span class="line">        from    to  target type</span><br><span class="line">           15    24    27   any</span><br><span class="line">           27    31    27   any</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p> <code>3: new</code>  放进操作输入栈然后<code>dup</code>，把对象lock复制了一份，为了使用两次。第一次，消耗栈顶引用，用 <code>7: invokespecial</code> 调用构造方法；10: astore_2&#96;是把第二个赋值给2号槽位的lock。这部分是</p>
+<p><code>Object lock = new Object()</code>的解读</p>
+<p>接下来是syn的方法了，首先<code>11: aload_2</code>将对象加入操作出栈表示syn开始，接下来 <code>dup</code>复制lock引用，一个给<code>monitorenter</code>，一个给<code>monitorexit</code>，分别对应加锁指令和解锁指令。</p>
+<p> <code>astore_3</code>先把lock引用存储到3号槽位，栈顶还剩下一个lock引用，此引用配合<code>monitorenter</code>把lock引用消耗，对lock引用指向的对象进行了一个加锁的操作，然后执行打印操作<code>system.out.println</code>15~19。</p>
+<p>如果没有异常 <code>astore_3</code>把lcok引用加载到栈顶再执行<code>23: monitorexit</code>对同一个对象执行解锁，然后goto 34结束。</p>
+<p>如果出现异常查看异常表<code>Exception table</code>，如果from 15 to 24 出现异常进入27（from27 to 31同理） ，<code>astore</code>存储异常，  <code>astore_3</code>把lcok引用加载到栈顶再执行<code>23: monitorexit</code>对同一个对象执行解锁，<code>aload</code>加载出之前存在4号槽位的异常，<code>athrow</code>抛出，最后结束。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/09/21/G1%E9%87%8D%E7%82%B9%E6%8F%8F%E8%BF%B0%E4%B8%80%E9%81%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="LLCH Liu">
+      <meta itemprop="description" content="Here we go!!!!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Here We Go">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/09/21/G1%E9%87%8D%E7%82%B9%E6%8F%8F%E8%BF%B0%E4%B8%80%E9%81%8D/" class="post-title-link" itemprop="url">G1重点描述一遍</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-09-21 10:25:06 / 修改时间：10:29:20" itemprop="dateCreated datePublished" datetime="2023-09-21T10:25:06+08:00">2023-09-21</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>背景</p>
+<p>在G1出现之前，包括在cms出现之前</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/09/19/ClassLoading/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -198,7 +330,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-09-20 08:54:14" itemprop="dateModified" datetime="2023-09-20T08:54:14+08:00">2023-09-20</time>
+                <time title="修改时间：2023-09-21 15:52:09" itemprop="dateModified" datetime="2023-09-21T15:52:09+08:00">2023-09-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -289,6 +421,110 @@
 <p><strong>istore_2</strong>：</p>
 <p>将操作数栈中的元素弹出，放到局部变量表的2号位置</p>
 <img src="../filename/16.png" style="zoom:50%;" />
+
+<p><strong>iload1</strong>：</p>
+<p>将局部变量表中1号位置的元素放入操作数栈中</p>
+<p><strong>iload2</strong>：</p>
+<p>将局部变量表中2号位置的元素放入操作数栈中</p>
+<p><strong>iadd</strong>：</p>
+<p>将操作数栈中的两个元素弹出栈并相加，结果在压入操作数栈中</p>
+<p><strong>istore 3</strong>：</p>
+<p>将操作数栈中的元素弹出，放入局部变量表的3号位置</p>
+<p><strong>getstatic #4</strong>：</p>
+<p>在运行时常量池中找到#4，发现是一个对象</p>
+<p>在堆内存中找到该对象，并将其<strong>引用</strong>放入操作数栈中</p>
+<p><strong>iload 3</strong>：</p>
+<p><strong>invokevirtual 5</strong>：</p>
+<ul>
+<li>找到常量池 #5 项</li>
+<li>定位到方法区 <code>java/io/PrintStream.println:(I)V</code> 方法</li>
+<li>生成新的栈帧（分配 locals、stack等）</li>
+<li>传递参数，执行新栈帧中的字节码</li>
+<li>执行完毕，弹出栈帧</li>
+<li>清除 main 操作数栈内容</li>
+</ul>
+<p><strong>return</strong>：</p>
+<ul>
+<li>完成 main 方法调用，弹出 main 栈帧</li>
+<li>程序结束</li>
+</ul>
+<hr>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Main</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">test1</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title function_">test2</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test3</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">test4</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Main</span> <span class="variable">m</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Main</span>();</span><br><span class="line">        m.test1();</span><br><span class="line">        m.test2();</span><br><span class="line">        m.test3();</span><br><span class="line">        Main.test4();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>不同方法在调用时，对应的虚拟机指令有所区别：</p>
+<ul>
+<li><p><code>invokeSpecial</code>和<code>invokeStatic</code>属于<strong>静态绑定</strong></p>
+</li>
+<li><p>私有、构造、被final修饰的方法，在调用时都使用<code>invokespecial</code>指令</p>
+</li>
+<li><p>普通成员方法在调用时，使用i<code>nvokevirtual</code>指令。因为<strong>编译期间无法确定该方法的内容</strong>，只有在运行期间才能确定，属于<strong>动态绑定</strong>，即支持多态</p>
+</li>
+<li><p>静态方法在调用时使用**<code>invokestatic</code>**指令</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Code:</span><br><span class="line">     stack=2, locals=2, args_size=1</span><br><span class="line">        0: new           #2                  // class main/Main</span><br><span class="line">        3: dup</span><br><span class="line">        4: invokespecial #3                  // Method &quot;&lt;init&gt;&quot;:()V</span><br><span class="line">        7: astore_1</span><br><span class="line">        8: aload_1</span><br><span class="line">        9: invokespecial #4                  // Method test1:()V</span><br><span class="line">       12: aload_1</span><br><span class="line">       13: invokespecial #5                  // Method test2:()V</span><br><span class="line">       16: aload_1</span><br><span class="line">       17: invokevirtual #6                  // Method test3:()V</span><br><span class="line">       20: invokestatic  #7                  // Method test4:()V</span><br><span class="line">       23: return</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>new 是创建【对象】，给对象分配堆内存，执行成功会将【对象引用】压入操作数栈</li>
+<li>dup 是<strong>复制</strong>操作数栈栈顶的内容，本例即为【对象引用】，为什么需要两份引用呢，一个是要配合 <code>invokespecial</code> 调用该对象的构造方法 （会消耗掉栈顶一个引用），另一个要配合 <code>astore_1</code> 赋值给局部变量</li>
+<li>成员方法与静态方法调用的另一个区别是，执行方法前是否需要【对象引用】</li>
+</ul>
+<h2 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h2><ul>
+<li><p>运行jps，获取进程Id</p>
+</li>
+<li><p>运行Hsdb工具，可以看到比较底层的原理</p>
+</li>
+<li><p>进入JDK安装目录，执行**<code>java -cp .lib/sa-jdi.jar sun.jvm.hotspot.HSDB</code>**，进入图形界面</p>
+<p>Attach id</p>
+</li>
+</ul>
+<hr>
+<p> <strong>vtable</strong>:多态的方法存在在一张加vtable的虚方法表中，静态，final，私有不会在内</p>
+<p><strong>从JVM内部角度看，java多态的实现是通过itable（interface method table：接口方法表）, vtable（virtual method table：虚函数表）来实现方法的准确跳转。</strong></p>
+<ul>
+<li>先通过栈帧中对象的引用找到对象</li>
+<li>分析对象头，找到对象实际的Class</li>
+<li>Class结构中有<strong>vtable</strong>，它在类加载的链接阶段就已经根据方法的重写规则生成好了</li>
+<li>查询<strong>vtable</strong>找到方法的具体地址</li>
+<li>执行方法的字节码</li>
+</ul>
+<hr>
+<p>异常catch</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            i = <span class="number">10</span>;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            i = <span class="number">20</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>重点，省略了部分</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Code:</span><br><span class="line">    stack=1, locals=3, args_size=1</span><br><span class="line">       0: iconst_0</span><br><span class="line">       1: istore_1</span><br><span class="line">       2: bipush        10</span><br><span class="line">       4: istore_1</span><br><span class="line">       5: goto          12</span><br><span class="line">       8: astore_2</span><br><span class="line">       9: bipush        20</span><br><span class="line">      11: istore_1</span><br><span class="line">      12: return</span><br><span class="line">    Exception table:</span><br><span class="line">       from    to  target type</span><br><span class="line">           2     5     8   Class java/lang/Exception</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>可以看到多出来一个 Exception table 的结构，[from, to) 是前闭后开（也就是检测2~4行）的检测范围，一旦这个范围内的字节码执行出现异常，先进行类型匹配，是否一致，如果一致，进入 target 所指示行号。</p>
+</li>
+<li><p>8行的字节码指令 astore_2 是将异常对象引用存入局部变量表的2号位置（为e）。 </p>
+</li>
+<li><p>因为异常出现时，<strong>只能进入</strong> Exception table 中<strong>一个分支</strong>，所以局部变量表 slot 2 位置<strong>被共用</strong>，异常都放在一个槽位，没有必要创建多个槽位的信息。</p>
+</li>
+</ul>
+<ul>
+<li><p>finally的原理是将finally{}块中的代码分别放在try{…}的最后和catch{…}的最后</p>
+</li>
+<li><p>如果try除了问题,直接进入catch中,然后catch后面复制的finally就会被执行</p>
+</li>
+<li><p>如果没有出问题,try{}后面的代码就会被执行</p>
+</li>
+<li><p>todo 如果出现catch的异常类不匹配,程序就不会往下走了,此时的finally也不会被执行</p>
+</li>
+</ul>
+<ul>
+<li>因为检测的那段代码出现异常的时候肯定是在插入的finally前，所以不管有无异常，都只会执行一次finally块代码</li>
+</ul>
+<hr>
+<ul>
+<li>在返回数据时，先把返回结果暂存，等finally中内容执行完了再把暂存结果返回</li>
+<li>由于 ﬁnally 中的 ireturn 被插入了所有可能的流程，因此返回结果肯定以ﬁnally的为准<br>如果在 ﬁnally 中出现了 return，会吞掉异常，所以不要在finally中进行返回操作</li>
+</ul>
 
       
     </div>
@@ -552,7 +788,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-09-19 23:57:26" itemprop="dateModified" datetime="2023-09-19T23:57:26+08:00">2023-09-19</time>
+                <time title="修改时间：2023-09-21 12:12:14" itemprop="dateModified" datetime="2023-09-21T12:12:14+08:00">2023-09-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -884,7 +1120,11 @@
 <p>原始快照破坏第二个条件：当灰色对象要删除指向白色对象的的引用关系时，将这个要删除的引用记录下来，等并发扫描后，再将这些记录过引用关系的灰色对象为根，重新扫描。</p>
 <p>引用关系记录的插入还是删除，虚拟机的记录操作都是通过写屏障是实现的。G1、Shenandoah使用原始快照。</p>
 <hr>
-<h4 id="Garbage-First收集器"><a href="#Garbage-First收集器" class="headerlink" title="Garbage First收集器"></a>Garbage First收集器</h4><blockquote>
+<p>写屏障</p>
+<p>当灰色对象要删除指向白色对象的的引用关系时，就会触发写屏障机制，将这个要删除的引用记录下来写到本地对象中。然后写进全局队列 </p>
+<h4 id="Garbage-First收集器"><a href="#Garbage-First收集器" class="headerlink" title="Garbage First收集器"></a>Garbage First收集器</h4><p>在G1收集器出现之前，包括cms在内，垃圾收集器的目标范围要么是新生代（Minor GC），要么是老年代（Major GC)，要么就是整个java堆（Full GC）。而G1可以面向堆内存的任何部分来组成回收集进行回收，衡量标准不再是它属于哪个分代，而是哪块内存存放垃圾最多，回收收益最大，这就是G1的Mixed GC模式。注意：G1仍遵循分代收集理论。</p>
+<p>G1的关键基于Region的堆内存布局。G1把连续的堆内存划分为多个大小相等的独立区域（Region)，每个region都可以根据需要成为Eden，Survivor空间，或者是老年代空间。region还存在一类特殊的Humongous区域，专门存储大对象，G1大多数行为把它当作老年代一部分看待。</p>
+<blockquote>
 <p><strong>Young Collection–&gt;YoungCollection+Concurrent Mark–&gt;Mixed Collection–&gt;Young Collection</strong></p>
 </blockquote>
 <p><img src="/1.jpg"></p>
@@ -1142,7 +1382,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1155,7 +1395,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
