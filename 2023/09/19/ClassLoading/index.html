@@ -34,8 +34,11 @@
 <meta property="og:image" content="http://example.com/2023/09/19/filename/15.png">
 <meta property="og:image" content="http://example.com/2023/09/19/filename/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATEwuTEVCUk9O,size_20,color_FFFFFF,t_70,g_se,x_16.png">
 <meta property="og:image" content="http://example.com/2023/09/19/filename/16.png">
+<meta property="og:image" content="http://example.com/filename/17.png">
+<meta property="og:image" content="http://example.com/2023/09/19/filename/18.png">
+<meta property="og:image" content="http://example.com/2023/09/19/filename/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202023-09-24%20004439.png">
 <meta property="article:published_time" content="2023-09-19T15:52:06.000Z">
-<meta property="article:modified_time" content="2023-09-21T07:52:09.921Z">
+<meta property="article:modified_time" content="2023-09-24T15:29:53.629Z">
 <meta property="article:author" content="LLCH Liu">
 <meta property="article:tag" content="-JAVA -JVM">
 <meta name="twitter:card" content="summary">
@@ -209,7 +212,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-09-21 15:52:09" itemprop="dateModified" datetime="2023-09-21T15:52:09+08:00">2023-09-21</time>
+                <time title="修改时间：2023-09-24 23:29:53" itemprop="dateModified" datetime="2023-09-24T23:29:53+08:00">2023-09-24</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -411,6 +414,276 @@
 <li>在返回数据时，先把返回结果暂存，等finally中内容执行完了再把暂存结果返回</li>
 <li>由于 ﬁnally 中的 ireturn 被插入了所有可能的流程，因此返回结果肯定以ﬁnally的为准<br>如果在 ﬁnally 中出现了 return，会吞掉异常，所以不要在finally中进行返回操作</li>
 </ul>
+<h1 id="类加载阶段"><a href="#类加载阶段" class="headerlink" title="类加载阶段"></a>类加载阶段</h1><p>类加载阶段分为加载，连接接，初始化三阶段。<strong>加载和连接是可能交替运行的</strong>。</p>
+<h2 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h2><p>java编译为字节码后，运行需要通过类加载器，把类的字节码加载到方法区中，内部采用C++的i<code>nstanceKlass</code>描述class类。insatance的重要fileld有：</p>
+<blockquote>
+<ul>
+<li>_java_mirror 即 java 的类镜像，例如对 String 来说，它的镜像类就是 String.class，作用是把 klass 暴露给 java 使用</li>
+<li>_super 即父类</li>
+<li>_ﬁelds 即成员变量</li>
+<li>_methods 即方法</li>
+<li>_constants 即常量池</li>
+<li>_class_loader 即类加载器</li>
+<li>_vtable 虚方法表</li>
+<li>_itable 接口方法</li>
+</ul>
+</blockquote>
+<p>java类访问Klass对象不能直接访问，要通过<code>_java_mirror</code>，这个javaMirror相当于Java和c++的桥梁。<code>xxx.class</code>就是instanceKlass的镜像。</p>
+<p><img src="/../filename/17.png"></p>
+<p>类加载到元空间，方法区的实现就是元空间的实现，类的字节码都会加载到元空间中，构成<strong>instanceklass</strong>这样的数据结构。加载的同时，在java堆中生成java_mirror的镜像</p>
+<p>类的对象在对象头中保存了*.class的地址。让对象可以通过其找到方法区中的instanceKlass，从而获取类的各种信息</p>
+<p>所有对象都在堆中包括类对象，当然c++对象例外</p>
+<h2 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h2><p>分为三步骤：</p>
+<ul>
+<li>验证：验证类是否符合JVM规范，安全性检查</li>
+<li>准备：为静态白变量分配空间，设置默认值</li>
+</ul>
+<p><strong>准备</strong></p>
+<ul>
+<li>static变量在JDK 7以后就存储在_java_mirror末尾了。静态变量存储在堆中。</li>
+<li>static变量在<strong>分配空间</strong>和<strong>赋值</strong>是在两个阶段完成的。<strong>分配空间在准备阶段完成，赋值在初始化阶段完成</strong></li>
+<li>如果 static 变量是 ﬁnal 的基本类型，以及字符串常量，那么编译阶段值就确定了，赋值在准备阶段完成</li>
+<li>如果 static 变量是 ﬁnal 的，但属于引用类型，那么赋值也会在初始化阶段完成</li>
+</ul>
+<p><strong>解析</strong></p>
+<p>将常量池中的符号引用解析为直接引用。</p>
+<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><ul>
+<li>初始化即调用<code>&lt;cinit&gt;()v</code> ，虚拟机会保证这个类的构造方法的线程安全。</li>
+<li>初始化只是会加载静态变量、静态代码块，不会执行构造方法。</li>
+<li>类加载不会执行cinit只有类初始化才会执行，然而static块会被放到cinit中，要是执行了就证明初始化了类</li>
+<li>因为static块和static变量的初始化会在cinit方法中整合，而类的初始化就是执行cinit方法的过程</li>
+<li>加载阶段就已经生成了mirror_class（也就是类.class），所以不会触发静态代码块</li>
+</ul>
+<p>类的初始化的<strong>懒惰</strong>的，以下情况会初始化：</p>
+<ul>
+<li><p>main 方法所在的类，总会被首先初始化</p>
+</li>
+<li><p>首次访问这个类的静态变量或静态方法时</p>
+</li>
+<li><p>子类初始化，如果父类还没初始化，会引发</p>
+</li>
+<li><p>子类访问父类的静态变量，只会触发父类的初始化</p>
+</li>
+<li><p>Class.forName默认导致类的触发</p>
+</li>
+<li><p>new 一个对象会导致对象的类初始化</p>
+</li>
+</ul>
+<p>以下情况不会导致类的初始化：</p>
+<ul>
+<li><p>访问类的 static ﬁnal 静态常量（基本类型和字符串）不会触发。</p>
+<p>因为在准备阶段，static final的常量就已经完成赋值了，以后直接使用值，不会触发类的初始化了</p>
+</li>
+<li><p>类对象.class 不会触发初始化</p>
+</li>
+<li><p>创建该类对象的数组</p>
+</li>
+<li><p>类加载器的.loadClass方法</p>
+</li>
+<li><p>Class.forName的参数2为false时</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Load3</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;main init&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException &#123;</span><br><span class="line">        <span class="comment">// 1. 静态常量（基本类型和字符串）不会触发初始化</span></span><br><span class="line">        System.out.println(B.b);</span><br><span class="line">        <span class="comment">// 2. 类对象.class 不会触发初始化</span></span><br><span class="line">        System.out.println(B.class);</span><br><span class="line">        <span class="comment">// 3. 创建该类的数组不会触发初始化</span></span><br><span class="line">        System.out.println(<span class="keyword">new</span> <span class="title class_">B</span>[<span class="number">0</span>]);</span><br><span class="line">        <span class="comment">// 4. 不会初始化类 B，但会加载 B、A</span></span><br><span class="line">        <span class="type">ClassLoader</span> <span class="variable">cl</span> <span class="operator">=</span> Thread.currentThread().getContextClassLoader();</span><br><span class="line">        cl.loadClass(<span class="string">&quot;cn.itcast.jvm.t3.B&quot;</span>);</span><br><span class="line">        <span class="comment">// 5. 不会初始化类 B，但会加载 B、A</span></span><br><span class="line">        <span class="type">ClassLoader</span> <span class="variable">c2</span> <span class="operator">=</span> Thread.currentThread().getContextClassLoader();</span><br><span class="line">        Class.forName(<span class="string">&quot;cn.itcast.jvm.t3.B&quot;</span>, <span class="literal">false</span>, c2);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 1. 首次访问这个类的静态变量或静态方法时</span></span><br><span class="line">        System.out.println(A.a);</span><br><span class="line">        <span class="comment">// 2. 子类初始化，如果父类还没初始化，会引发</span></span><br><span class="line">        System.out.println(B.c);</span><br><span class="line">        <span class="comment">// 3. 子类访问父类静态变量，只触发父类初始化</span></span><br><span class="line">        System.out.println(B.a);</span><br><span class="line">        <span class="comment">// 4. 会初始化类 B，并先初始化类 A</span></span><br><span class="line">        Class.forName(<span class="string">&quot;cn.itcast.jvm.t3.B&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;a init&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span> <span class="keyword">extends</span> <span class="title class_">A</span> &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">static</span> <span class="type">double</span> <span class="variable">b</span> <span class="operator">=</span> <span class="number">5.0</span>;</span><br><span class="line">    <span class="keyword">static</span> <span class="type">boolean</span> <span class="variable">c</span> <span class="operator">=</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;b init&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>类的初始化就是执行cinit方法，这个方法包含了类中定义的静态代码块，所以其实是用静态代码块是否执行为依据来判断类是否初始化了。</p>
+<ul>
+<li>因为<code>main</code>被触发，所以一定会输出<strong>main init</strong></li>
+</ul>
+<ol>
+<li><p>执行1时，因为引用的<code>B</code>中的<code>b</code>是常量，<code>B</code>不会初始化，没有不会触发<code>B</code>中的方法，所以只输出   5.0。</p>
+<p><strong>解释</strong>：</p>
+<ul>
+<li><p>因为static块和static变量的初始化会在cinit方法中整合，而类的初始化就是执行cinit方法的过程。</p>
+</li>
+<li><p>类加载不会执行cinit只有类初始化才会执行，然而static块会被放到cinit中，要是执行了就证明初始化了类。</p>
+</li>
+</ul>
+</li>
+<li><p>会打印B.class，但不会触发初始化B。</p>
+<p>解释：加载阶段就已经生成了mirror_class（也就是类.class），所以不会触发静态代码块。</p>
+</li>
+<li><p>解释：因为你数组存的也还是Minor对象，在加载时就创建了。数组只是预留个空间，没new。数组只充当个容器，和类没什么关系</p>
+</li>
+<li><p>class只会导致类的加载，解析和初始化都不执行。这里要注意加载指的是第一个阶段而不是整个过程</p>
+</li>
+<li><p>略。false，代表不初始化。</p>
+</li>
+<li><p>静态变量都会引起初始化，非final的静态方法也会</p>
+</li>
+<li><p>类a的初始化会导致类b的初始化，父类初始化在子类之前</p>
+</li>
+<li><p>略</p>
+</li>
+<li><p>略</p>
+</li>
+</ol>
+<p>加载，用到的类都会加载，加载信息进内存（元空间），然后初始化开辟空间（堆中）静态在堆中</p>
+<h2 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h2><table>
+<thead>
+<tr>
+<th><strong>名称</strong></th>
+<th><strong>加载的类</strong></th>
+<th><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Bootstrap ClassLoader（启动类加载器）</td>
+<td>JAVA_HOME&#x2F;jre&#x2F;lib</td>
+<td>无法直接访问</td>
+</tr>
+<tr>
+<td>Extension ClassLoader(拓展类加载器)</td>
+<td>JAVA_HOME&#x2F;jre&#x2F;lib&#x2F;ext</td>
+<td>上级为Bootstrap，<strong>显示为null</strong></td>
+</tr>
+<tr>
+<td>Application ClassLoader(应用程序类加载器)</td>
+<td>classpath</td>
+<td>上级为Extension</td>
+</tr>
+<tr>
+<td>自定义类加载器</td>
+<td>自定义</td>
+<td>上级为Application</td>
+</tr>
+</tbody></table>
+<p>第一遍自下而上有没有加载，有就终止返回，没有到bootstrap顶层后自上而下处理加载该类的任务。 </p>
+<p>自定向下 尝试加载。这是为了<strong>防止核心类被篡改</strong></p>
+<p><strong>启动类加载器是由c++程序编写，不能够通过Java代码直接访问。</strong></p>
+<h3 id="启动类加载器"><a href="#启动类加载器" class="headerlink" title="启动类加载器"></a>启动类加载器</h3><p>用BootStrap类加载器加载类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.itcast.jvm.t3.load;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">F</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;bootstrap F init&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>执行：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.itcast.jvm.t3.load;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Load5_1</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException &#123;</span><br><span class="line">        Class&lt;?&gt; aClass = Class.forName(<span class="string">&quot;cn.itcast.jvm.t3.load.F&quot;</span>);</span><br><span class="line">        System.out.println(aClass.getClassLoader());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">E:\git\jvm\out\production\jvm&gt;java -Xbootclasspath/a:.</span><br><span class="line">cn.itcast.jvm.t3.load.Load5</span><br><span class="line">bootstrap F init</span><br><span class="line">null</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>Xbootclasspath 表示设置 bootclasspath</p>
+</li>
+<li><p>其中 &#x2F;a:. 表示将当前目录追加至 bootclasspath 之后</p>
+</li>
+<li><p>可以用这个办法替换核心类</p>
+<p>java -Xbootclasspath:<new bootclasspath></p>
+</li>
+<li><p>也可以追加</p>
+<p>java -Xbootclasspath&#x2F;a:&lt;追加路径&gt;（后追加）<br>java -Xbootclasspath&#x2F;p:&lt;追加路径&gt;（前追加）</p>
+</li>
+</ul>
+<h3 id="扩展类加载器"><a href="#扩展类加载器" class="headerlink" title="扩展类加载器"></a>扩展类加载器</h3><p>如果classpath和JAVA_HOME&#x2F;jre&#x2F;lib&#x2F;ext 下有同名类，加载时会使用<strong>拓展类加载器</strong>加载。当应用程序类加载器发现拓展类加载器已将该同名类加载过了，则不会再次加载</p>
+<h3 id="双亲委派模式"><a href="#双亲委派模式" class="headerlink" title="双亲委派模式"></a>双亲委派模式</h3><p>双亲委派模式源码</p>
+<img src="../filename/18.png" style="zoom: 50%;" />
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> Class&lt;?&gt; loadClass(String name, <span class="type">boolean</span> resolve)</span><br><span class="line">    <span class="keyword">throws</span> ClassNotFoundException &#123;</span><br><span class="line">    <span class="keyword">synchronized</span> (getClassLoadingLock(name)) &#123;</span><br><span class="line">        <span class="comment">// 1. 检查该类是否已经加载</span></span><br><span class="line">        Class&lt;?&gt; c = findLoadedClass(name);</span><br><span class="line">        <span class="keyword">if</span> (c == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="type">long</span> <span class="variable">t0</span> <span class="operator">=</span> System.nanoTime();</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (parent != <span class="literal">null</span>) &#123;</span><br><span class="line">                    <span class="comment">// 2. 有上级的话，委派上级 loadClass</span></span><br><span class="line">                    c = parent.loadClass(name, <span class="literal">false</span>);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="comment">// 3. 如果没有上级了（ExtClassLoader），则委派</span></span><br><span class="line">                    <span class="type">BootstrapClassLoader</span></span><br><span class="line">                        <span class="variable">c</span> <span class="operator">=</span> findBootstrapClassOrNull(name);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (c == <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="type">long</span> <span class="variable">t1</span> <span class="operator">=</span> System.nanoTime();</span><br><span class="line">                <span class="comment">// 4. 每一层找不到，调用 findClass 方法（每个类加载器自己扩展）来加载</span></span><br><span class="line">                c = findClass(name);</span><br><span class="line">                <span class="comment">// 5. 记录耗时</span></span><br><span class="line">                sun.misc.PerfCounter.getParentDelegationTime().addTime(t1 - t0);</span><br><span class="line">                sun.misc.PerfCounter.getFindClassTime().addElapsedTimeFrom(t1);</span><br><span class="line">                sun.misc.PerfCounter.getFindClasses().increment();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (resolve) &#123;</span><br><span class="line">            resolveClass(c);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> c;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>当AppClassLoader加载一个class时，它首先不会自己去尝试加载这个类，而是把类加载请求委派给父类加载器ExtClassLoader去完成。</p>
+</li>
+<li><p>当ExtClassLoader加载一个class时，它首先也不会自己去尝试加载这个类，而是把类加载请求委派给BootStrapClassLoader去完成。</p>
+</li>
+<li><p>如果BootStrapClassLoader加载失败(例如在$JAVA_HOME&#x2F;jre&#x2F;lib里未查找到该class)，会使用ExtClassLoader来尝试加载；</p>
+</li>
+<li><p>若ExtClassLoader也加载失败，则会使用AppClassLoader来加载，如果AppClassLoader也加载失败，则会报出异常ClassNotFoundException。</p>
+</li>
+<li><p>可以说是递归 因为都是调用父类ClassLoader的这个loadclass方法</p>
+</li>
+</ul>
+<h3 id="线程上下文"><a href="#线程上下文" class="headerlink" title="线程上下文"></a>线程上下文</h3><p>某些情况打破双亲委派模式</p>
+<p>SPI（ServiceLoader)机制是JDK提供接口，第三方Jar包实现，接口由启动类加载器加载，实现类不在JDK中，需要反向委派，由线程上下文加载器加载</p>
+<p><code>com.mysql.jdbc.Driver</code>的加载器是<strong>Bootstrap ClassLoader</strong>，</p>
+<p>jdbc是Java接口规范,接口类的加载肯定是在启动类加载器能加载目录下的,而实现这套规范的mysql的驱动肯定不在jre&#x2F;lib目录下，所以启动类加载器想要加载mysql驱动类肯定不行</p>
+<p>双亲委派模型是低层级类加载器让高层级类加载器看是否能加载，如果能自己就不加载了，而这里是高层级调用低层级的，所以违反了双亲委派模型</p>
+<p>DriverManager在rt包下，肯定是bootstrap来加载，但是mysql的Driver肯定是在别的包，就要用<strong>应用程序</strong>的类加载器</p>
+<p>默认是使用本来的加载器加载依赖类的，由于JDBC在核心类库中，它由启动类加载器加载，由于驱动是在他的类初始化方法中加载的，所以驱动是DriverManager的依赖，默认是由启动类加载器加载，但找不到，不可能加载到驱动，于是要显示的调用Classd的forName方法使用一个能加载驱动的加载器加载驱动。</p>
+<ul>
+<li>我来总结下，在jre&#x2F;lib包下有一个DriverManager，是启动类加载的，但是jdbc的驱动是各个厂商来实现的不在启动类加</li>
+<li>只能打破双亲委派，启动类直接请求系统类加载器去classpath下加载驱动（正常是向上委托，这个反过来了），而打破双亲委派的就是这个线程上下文类加载器载路径下，启动类无法加载，而驱动管理需要用到这些驱动</li>
+<li>过程就是：启动类加载器加载DriverManager，DriverManager代码里调用了线程上下文类加载器，这个加载器默认就是使用应用程序类加载器加载类，通过应用程序类加载器加载<strong>jdbc</strong>驱动</li>
+</ul>
+<p>![](..&#x2F;filename&#x2F;屏幕截图 2023-09-24 004225.png)</p>
+<img src="../filename/屏幕截图 2023-09-24 004439.png" style="zoom: 67%;" />
+
+<h3 id="自定义类加载器"><a href="#自定义类加载器" class="headerlink" title="自定义类加载器"></a>自定义类加载器</h3><p><strong>什么时候需要自定义类加载器？</strong></p>
+<ul>
+<li>想加载非 classpath 随意路径中的类文件。想加载的文件即不在启动，也不再扩展，也不再classpath下。想找任意路径下的类文件。</li>
+<li>通过接口来使用实现，希望解耦时，常用在框架设计</li>
+<li>这些类希望予以隔离，不同应用的同名类都可以加载，不冲突，常见于 <strong>tomcat 容器</strong></li>
+</ul>
+<p>步骤：</p>
+<ul>
+<li>继承 ClassLoader 父类</li>
+<li>要遵从双亲委派机制，重写 ﬁndClass 方法，这样才能委托上级类加载器进行优先加载。只有上级类加载器没有找到class时候，调用findclass在本身查找。<br>不是重写 loadClass 方法，否则不会走双亲委派机制</li>
+<li>读取类文件的字节码，一般是byte数组</li>
+<li>调用父类的 deﬁneClass 方法来加载类</li>
+<li>对于类加载器的使用者调用该类加载器的 loadClass 方法</li>
+</ul>
+<h2 id="运行期优化"><a href="#运行期优化" class="headerlink" title="运行期优化"></a>运行期优化</h2><p>JVM将执行状态分成5个层次：</p>
+<ul>
+<li><p>0层，解释执行。</p>
+</li>
+<li><p>1层：使用 C1 即时编译器编译执行（不带 proﬁling）</p>
+</li>
+<li><p>2层：使用 C1 即时编译器编译执行（带基本的profiling）</p>
+</li>
+<li><p>3层：使用 C1 即时编译器编译执行（带完全的profiling）</p>
+</li>
+<li><p>4层：使用 C2 即时编译器编译执行</p>
+</li>
+</ul>
+<p>0层，字节码加载到虚拟机之后，靠解释器一个字节一个字节去解释执行。解释器将字节码解释为真正的字节码，cpu就能识别执行了。字节码反复调用使用，到达一定阈值之后。启用编译器就字节码进行编译执行，从0层上升到一层。编译器分为C1和C2。C1和C2的优化程度不一样，可以认为C1只做些基本的优化，C2做的更彻底，更完全的优化。C1比C2多做了些<strong>profiling</strong>信息统计操作。proﬁling 是指在运行过程中收集一些程序执行状态（字节码运行状态）的数据，例如【方法的调用次数】，【循环的回边次数】等。统计发现某方法频繁的调用，将会上升为C2编译器进行更完全，更彻底的优化。</p>
+<h3 id="即时编译器（JIT）与解释器的区别"><a href="#即时编译器（JIT）与解释器的区别" class="headerlink" title="即时编译器（JIT）与解释器的区别"></a><strong>即时编译器（JIT）与解释器的区别</strong></h3><p>解释器</p>
+<ul>
+<li>将字节码解释为机器码，下次即使遇到相同的字节码，仍会执行重复的解释</li>
+<li>是将字节码解释为针对所有平台都通用的机器码</li>
+</ul>
+<p>即时编译器</p>
+<ul>
+<li>将一些字节码编译为机器码，并存入 Code Cache，下次遇到相同的代码，直接执行，无需再编译</li>
+<li>JIT根据平台类型，生成平台特定的机器码。（<em>因为你编译的Java源码不知道放在哪个平台执行，要实现跨平台就要先编译成统一的字节码文件，再针对不同平台解析对应平台的机器码</em>）</li>
+</ul>
+<p>对于大部分的不常用的代码，我们无需耗费时间将其编译成机器码，而是采取解释执行的方式运行；另一方面，对于仅占据小部分的热点代码，我们则可以将其编译成机器码，以达到理想的运行速度。 执行效率上简单比较一下 Interpreter &lt; C1 &lt; C2<em>（C1可以提升5倍左右，C2的执行效率可以提升10到100倍）</em>，总的目标是发现热点代码（hotspot名称的由 来），并优化这些热点代码。</p>
+<h3 id="逃逸分析"><a href="#逃逸分析" class="headerlink" title="逃逸分析"></a>逃逸分析</h3><p>发现创建的对象，不会被用到。在C2中改掉。</p>
+<p>作用：通过逃逸分析后的对象，可将这些对象直接在栈上进行分配，而非堆上。极大的降低了GC次数，从而提升了程序整体的执行效率。也就是没有逸出线程栈时，对象分配在栈上而不是在堆上，这样对象跟随栈消亡。确定逃逸的对象通过“标量替换”将该对象分解在栈上分配内存。</p>
+<p><strong>逃逸分析的 JVM 参数如下</strong>：</p>
+<ul>
+<li>开启逃逸分析：-XX:+DoEscapeAnalysis</li>
+<li>关闭逃逸分析：-XX:-DoEscapeAnalysis</li>
+<li>显示分析结果：-XX:+PrintEscapeAnalysis</li>
+</ul>
+<p>逃逸分析技术在 Java SE 6u23+ 开始支持，并默认设置为启用状态，<strong>可以不用额外加这个参数</strong></p>
+<p>参数逃逸（ArgEscape）：即一个对象被作为方法参数传递或者被参数引用，但在调用过程中不会发生全局逃逸，这个状态是通过被调方法的字节码确定的</p>
+<p>没有逃逸：即方法中的对象没有发生逃逸</p>
+<h4 id="逃逸分析优化"><a href="#逃逸分析优化" class="headerlink" title="逃逸分析优化"></a><strong>逃逸分析优化</strong></h4><p>针对上面第三点，当一个对象没有逃逸时，可以得到以下几个虚拟机的优化：</p>
+<p><strong>锁消除</strong><br>我们知道线程同步锁是非常牺牲性能的，当编译器确定当前对象只有当前线程使用，那么就会移除该对象的同步锁<br>例如，StringBuffer 和 Vector 都是用 synchronized 修饰线程安全的，但大部分情况下，它们都只是在当前线程中用到，这样编译器就会优化移除掉这些锁操作<br>锁消除的 JVM 参数如下：</p>
+<p>开启锁消除：-XX:+EliminateLocks<br>关闭锁消除：-XX:-EliminateLocks<br>锁消除在 JDK8 中都是默认开启的，并且锁消除都要建立在逃逸分析的基础上</p>
+<p><strong>标量替换</strong><br>首先要明白标量和聚合量，基础类型和对象的引用可以理解为标量，它们不能被进一步分解。而能被进一步分解的量就是聚合量，比如：对象<br>对象是聚合量，它又可以被进一步分解成标量，将其成员变量分解为分散的变量，这就叫做标量替换。</p>
+<p>这样，如果一个对象没有发生逃逸，那压根就不用创建它，只会在栈或者寄存器上创建它用到的成员标量，节省了内存空间，也提升了应用程序性能<br>标量替换的 JVM 参数如下：</p>
+<p>开启标量替换：-XX:+EliminateAllocations<br>关闭标量替换：-XX:-EliminateAllocations<br>显示标量替换详情：-XX:+PrintEliminateAllocations<br>标量替换同样在 JDK8 中都是默认开启的，并且都要建立在逃逸分析的基础上</p>
+<p><strong>栈上分配</strong><br>当对象没有发生逃逸时，该对象就可以通过标量替换分解成成员标量分配在栈内存中，和方法的生命周期一致，随着栈帧出栈时销毁，减少了 GC 压力，提高了应用程序性能</p>
+<h3 id="方法内联"><a href="#方法内联" class="headerlink" title="方法内联"></a>方法内联</h3><p>也是即时编译器优化手段的一种。</p>
+<p>如果发现调用的方法是热点方法，并且长度不会特别长，会进行内连，所谓的内联就是把方法内代码拷贝，粘贴到调用者的位置，还可以进行常量折叠的优化。</p>
+<p>第二种情况，C++ 是否为内联函数由自己决定，Java 由编译器决定。Java 不支持直接声明为内联函数的，如果想让他内联，你只能够向编译器提出请求: 关键字 final 修饰 用来指明那个函数是希望被 JVM 内联的，如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title function_">doSomething</span><span class="params">()</span> &#123;  </span><br><span class="line">        <span class="comment">// to do something  </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>总的来说，一般的函数都不会被当做内联函数，只有声明了final后，编译器才会考虑是不是要把你的函数变成内联函数</p>
+<p>JVM内建有许多运行时优化。首先短方法更利于JVM推断。流程更明显，作用域更短，副作用也更明显。如果是长方法JVM可能直接就跪了。</p>
+<h3 id="反射优化"><a href="#反射优化" class="headerlink" title="反射优化"></a>反射优化</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Reflect1</span> &#123;</span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">foo</span><span class="params">()</span> &#123;</span><br><span class="line">      System.out.println(<span class="string">&quot;foo...&quot;</span>);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> NoSuchMethodException, InvocationTargetException, IllegalAccessException &#123;</span><br><span class="line">      <span class="type">Method</span> <span class="variable">foo</span> <span class="operator">=</span> Demo3.class.getMethod(<span class="string">&quot;foo&quot;</span>);</span><br><span class="line">      <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i&lt;=<span class="number">16</span>; i++) &#123;</span><br><span class="line">         foo.invoke(<span class="literal">null</span>);</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>foo.invoke 前面 0 ~ 15 次调用使用的是 MethodAccessor 的 NativeMethodAccessorImpl 实现，第十七次开始性能变高<br>invoke 方法源码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@CallerSensitive</span></span><br><span class="line"><span class="keyword">public</span> Object <span class="title function_">invoke</span><span class="params">(Object obj, Object... args)</span></span><br><span class="line">    <span class="keyword">throws</span> IllegalAccessException, IllegalArgumentException,</span><br><span class="line">       InvocationTargetException</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (!override) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!Reflection.quickCheckMemberAccess(clazz, modifiers)) &#123;</span><br><span class="line">            Class&lt;?&gt; caller = Reflection.getCallerClass();</span><br><span class="line">            checkAccess(caller, clazz, obj, modifiers);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//MethodAccessor是一个接口，有3个实现类，其中有一个是抽象类</span></span><br><span class="line">    <span class="type">MethodAccessor</span> <span class="variable">ma</span> <span class="operator">=</span> methodAccessor;             <span class="comment">// read volatile</span></span><br><span class="line">    <span class="keyword">if</span> (ma == <span class="literal">null</span>) &#123;</span><br><span class="line">        ma = acquireMethodAccessor();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ma.invoke(obj, args);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在  <code>MethodAccesso</code>中会<code>DelegatingMethodAccessorImpl</code>调用<code>NativeMethodAccessorImpl</code>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> sun.reflect;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.InvocationTargetException;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"><span class="keyword">import</span> sun.reflect.misc.ReflectUtil;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">NativeMethodAccessorImpl</span> <span class="keyword">extends</span> <span class="title class_">MethodAccessorImpl</span> &#123;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Method method;</span><br><span class="line"><span class="keyword">private</span> DelegatingMethodAccessorImpl parent;</span><br><span class="line"><span class="keyword">private</span> <span class="type">int</span> numInvocations;</span><br><span class="line">NativeMethodAccessorImpl(Method method) &#123;</span><br><span class="line"><span class="built_in">this</span>.method = method;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> Object <span class="title function_">invoke</span><span class="params">(Object target, Object[] args)</span></span><br><span class="line"><span class="keyword">throws</span> IllegalArgumentException, InvocationTargetException &#123;</span><br><span class="line"><span class="comment">// inflationThreshold 膨胀阈值，默认 15</span></span><br><span class="line"><span class="keyword">if</span> (++<span class="built_in">this</span>.numInvocations &gt; ReflectionFactory.inflationThreshold()</span><br><span class="line">&amp;&amp; !ReflectUtil.isVMAnonymousClass(<span class="built_in">this</span>.method.getDeclaringClass()))</span><br><span class="line">&#123;</span><br><span class="line"><span class="comment">// 使用 ASM 动态生成的新实现代替本地实现，速度较本地实现快 20 倍左右</span></span><br><span class="line"><span class="type">MethodAccessorImpl</span> <span class="variable">generatedMethodAccessor</span> <span class="operator">=</span></span><br><span class="line">(MethodAccessorImpl)</span><br><span class="line">(<span class="keyword">new</span> <span class="title class_">MethodAccessorGenerator</span>())</span><br><span class="line">.generateMethod(</span><br><span class="line"><span class="built_in">this</span>.method.getDeclaringClass(),</span><br><span class="line"><span class="built_in">this</span>.method.getName(),</span><br><span class="line"><span class="built_in">this</span>.method.getParameterTypes(),</span><br><span class="line"><span class="built_in">this</span>.method.getReturnType(),</span><br><span class="line"><span class="built_in">this</span>.method.getExceptionTypes(),</span><br><span class="line"><span class="built_in">this</span>.method.getModifiers()</span><br><span class="line">);</span><br><span class="line"><span class="built_in">this</span>.parent.setDelegate(generatedMethodAccessor);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 调用本地实现</span></span><br><span class="line"><span class="keyword">return</span> invoke0(<span class="built_in">this</span>.method, target, args);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">void</span> <span class="title function_">setParent</span><span class="params">(DelegatingMethodAccessorImpl parent)</span> &#123;</span><br><span class="line"><span class="built_in">this</span>.parent = parent;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">native</span> Object <span class="title function_">invoke0</span><span class="params">(Method method, Object target, Object[]</span></span><br><span class="line"><span class="params">args)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>前十五次调用的都是本地方法，当调用到第 16 次（从0开始算）时，会采用运行时生成的类代替掉最初的实现，可以通过 debug 得到 类名为 <code>sun.reflect.GeneratedMethodAccessor1</code>。</p>
+<p>生成了虚拟类 直接调用了，从反射方法调用变为正常方法调用。</p>
+<p>本地方法相对于 java方法来说较慢，要不说少用反射，反射创建对象虽然好但是会降低性能</p>
+<p>通过查看 ReflectionFactory 源码可知 </p>
+<ul>
+<li>sun.reflect.noInflation 可以用来禁用膨胀（直接生成 GeneratedMethodAccessor1，但首 次生成比较耗时，如果仅反射调用一次，不划算） </li>
+<li>sun.reflect.inflationThreshold 可以修改膨胀阈值</li>
+</ul>
 
     </div>
 
@@ -516,7 +789,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD"><span class="nav-number">1.</span> <span class="nav-text">类加载</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AD%97%E8%8A%82%E7%A0%81%E6%8C%87%E4%BB%A4"><span class="nav-number">2.</span> <span class="nav-text">字节码指令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#javap%E5%B7%A5%E5%85%B7"><span class="nav-number">2.1.</span> <span class="nav-text">javap工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E8%A7%A3"><span class="nav-number">2.2.</span> <span class="nav-text">图解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E6%80%81"><span class="nav-number">2.3.</span> <span class="nav-text">多态</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD"><span class="nav-number">1.</span> <span class="nav-text">类加载</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AD%97%E8%8A%82%E7%A0%81%E6%8C%87%E4%BB%A4"><span class="nav-number">2.</span> <span class="nav-text">字节码指令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#javap%E5%B7%A5%E5%85%B7"><span class="nav-number">2.1.</span> <span class="nav-text">javap工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E8%A7%A3"><span class="nav-number">2.2.</span> <span class="nav-text">图解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E6%80%81"><span class="nav-number">2.3.</span> <span class="nav-text">多态</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E9%98%B6%E6%AE%B5"><span class="nav-number">3.</span> <span class="nav-text">类加载阶段</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E8%BD%BD"><span class="nav-number">3.1.</span> <span class="nav-text">加载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5"><span class="nav-number">3.2.</span> <span class="nav-text">连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">3.3.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8"><span class="nav-number">3.4.</span> <span class="nav-text">类加载器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8"><span class="nav-number">3.4.1.</span> <span class="nav-text">启动类加载器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A9%E5%B1%95%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8"><span class="nav-number">3.4.2.</span> <span class="nav-text">扩展类加载器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.4.3.</span> <span class="nav-text">双亲委派模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E4%B8%8A%E4%B8%8B%E6%96%87"><span class="nav-number">3.4.4.</span> <span class="nav-text">线程上下文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8"><span class="nav-number">3.4.5.</span> <span class="nav-text">自定义类加载器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E6%9C%9F%E4%BC%98%E5%8C%96"><span class="nav-number">3.5.</span> <span class="nav-text">运行期优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%B3%E6%97%B6%E7%BC%96%E8%AF%91%E5%99%A8%EF%BC%88JIT%EF%BC%89%E4%B8%8E%E8%A7%A3%E9%87%8A%E5%99%A8%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">3.5.1.</span> <span class="nav-text">即时编译器（JIT）与解释器的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%83%E9%80%B8%E5%88%86%E6%9E%90"><span class="nav-number">3.5.2.</span> <span class="nav-text">逃逸分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%83%E9%80%B8%E5%88%86%E6%9E%90%E4%BC%98%E5%8C%96"><span class="nav-number">3.5.2.1.</span> <span class="nav-text">逃逸分析优化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E5%86%85%E8%81%94"><span class="nav-number">3.5.3.</span> <span class="nav-text">方法内联</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84%E4%BC%98%E5%8C%96"><span class="nav-number">3.5.4.</span> <span class="nav-text">反射优化</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -530,7 +803,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
