@@ -20,29 +20,27 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":false,"nav":null,"activeClass":"livere"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="类加载执行 javac -parameters -d . HellowWorld.java 123456&#x2F;&#x2F; HelloWorld 示例public class HelloWorld &amp;#123;    public static void main(String[] args) &amp;#123;        System.out.println(&quot;hello world&amp;quot">
+  <meta name="description" content="类加载执行 javac -parameters -d . HellowWorld.java 123456&#x2F;&#x2F; HelloWorld 示例public class HelloWorld &amp;#123;    public static void main(String[] args) &amp;#123;        System.out.println(&quot;hello world&quot;);">
 <meta property="og:type" content="article">
 <meta property="og:title" content="类加载和字节码技术">
 <meta property="og:url" content="http://example.com/2023/09/19/ClassLoading/index.html">
 <meta property="og:site_name" content="Here We Go">
-<meta property="og:description" content="类加载执行 javac -parameters -d . HellowWorld.java 123456&#x2F;&#x2F; HelloWorld 示例public class HelloWorld &amp;#123;    public static void main(String[] args) &amp;#123;        System.out.println(&quot;hello world&amp;quot">
+<meta property="og:description" content="类加载执行 javac -parameters -d . HellowWorld.java 123456&#x2F;&#x2F; HelloWorld 示例public class HelloWorld &amp;#123;    public static void main(String[] args) &amp;#123;        System.out.println(&quot;hello world&quot;);">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2023/09/19/ClassLoading/filename/11.png">
-<meta property="og:image" content="http://example.com/2023/09/19/ClassLoading/filename/12.png">
-<meta property="og:image" content="http://example.com/2023/09/19/filename/13%20.png">
+<meta property="og:image" content="http://example.com/filename/11.png">
+<meta property="og:image" content="http://example.com/filename/12.png">
 <meta property="og:image" content="http://example.com/filename/14.png">
-<meta property="og:image" content="http://example.com/2023/09/19/ClassLoading/filename/15.png">
-<meta property="og:image" content="http://example.com/2023/09/19/ClassLoading/filename/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATEwuTEVCUk9O,size_20,color_FFFFFF,t_70,g_se,x_16.png">
-<meta property="og:image" content="http://example.com/2023/09/19/ClassLoading/filename/16.png">
+<meta property="og:image" content="http://example.com/filename/15.png">
+<meta property="og:image" content="http://example.com/filename/20.png">
+<meta property="og:image" content="http://example.com/filename/16.png">
 <meta property="og:image" content="http://example.com/filename/17.png">
-<meta property="og:image" content="http://example.com/2023/09/19/filename/18.png">
-<meta property="og:image" content="http://example.com/2023/09/19/filename/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202023-09-24%20004439.png">
+<meta property="og:image" content="http://example.com/filename/18.png">
 <meta property="article:published_time" content="2023-09-19T15:52:06.000Z">
-<meta property="article:modified_time" content="2023-09-26T08:29:10.534Z">
+<meta property="article:modified_time" content="2023-09-26T09:06:17.042Z">
 <meta property="article:author" content="LLCH Liu">
 <meta property="article:tag" content="-JAVA -JVM">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2023/09/19/ClassLoading/filename/11.png">
+<meta name="twitter:image" content="http://example.com/filename/11.png">
 
 <link rel="canonical" href="http://example.com/2023/09/19/ClassLoading/">
 
@@ -212,7 +210,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-09-26 16:29:10" itemprop="dateModified" datetime="2023-09-26T16:29:10+08:00">2023-09-26</time>
+                <time title="修改时间：2023-09-26 17:06:17" itemprop="dateModified" datetime="2023-09-26T17:06:17+08:00">2023-09-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -242,10 +240,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <img src="filename/11.png" style="zoom:50%;" />
-
-
-
+        <p><img src="/filename/11.png"></p>
 <h1 id="类加载"><a href="#类加载" class="headerlink" title="类加载"></a>类加载</h1><p>执行 <code>javac -parameters -d . HellowWorld.java</code></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// HelloWorld 示例</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HelloWorld</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;hello world&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -276,13 +271,9 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# javap -v Demo3_1.class</span><br><span class="line">Classfile /root/Demo3_1.class</span><br><span class="line">Last modified Jul 7, 2019; size 665 bytes</span><br><span class="line">MD5 checksum a2c29a22421e218d4924d31e6990cfc5</span><br><span class="line">Compiled from &quot;Demo3_1.java&quot;</span><br><span class="line">public class cn.itcast.jvm.t3.bytecode.Demo3_1</span><br><span class="line">minor version: 0</span><br><span class="line">major version: 52</span><br><span class="line">flags: ACC_PUBLIC, ACC_SUPER</span><br><span class="line">Constant pool:</span><br><span class="line">#1 = Methodref #7.#26 // java/lang/Object.&quot;&lt;init&gt;&quot;:()V</span><br><span class="line">#2 = Class #27 // java/lang/Short</span><br><span class="line">#3 = Integer 32768</span><br><span class="line">#4 = Fieldref #28.#29 //</span><br><span class="line">java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">#5 = Methodref #30.#31 // java/io/PrintStream.println:(I)V</span><br><span class="line">#6 = Class #32 // cn/itcast/jvm/t3/bytecode/Demo3_1</span><br><span class="line">#7 = Class #33 // java/lang/Object</span><br><span class="line">#8 = Utf8 &lt;init&gt;</span><br><span class="line">#9 = Utf8 ()V</span><br><span class="line">#10 = Utf8 Code</span><br><span class="line">#11 = Utf8 LineNumberTable</span><br><span class="line">#12 = Utf8 LocalVariableTable</span><br><span class="line">#13 = Utf8 this</span><br><span class="line">#14 = Utf8 Lcn/itcast/jvm/t3/bytecode/Demo3_1;</span><br><span class="line">#15 = Utf8 main</span><br><span class="line">#16 = Utf8 ([Ljava/lang/String;)V</span><br><span class="line">#17 = Utf8 args</span><br><span class="line">#18 = Utf8 [Ljava/lang/String;</span><br><span class="line">#19 = Utf8 a</span><br><span class="line">#22 = Utf8 c</span><br><span class="line">#23 = Utf8 MethodParameters</span><br><span class="line">#24 = Utf8 SourceFile</span><br><span class="line">#25 = Utf8 Demo3_1.java</span><br><span class="line">#26 = NameAndType #8:#9 // &quot;&lt;init&gt;&quot;:()V</span><br><span class="line">#27 = Utf8 java/lang/Short</span><br><span class="line">#28 = Class #34 // java/lang/System</span><br><span class="line">#29 = NameAndType #35:#36 // out:Ljava/io/PrintStream;</span><br><span class="line">#30 = Class #37 // java/io/PrintStream</span><br><span class="line">#31 = NameAndType #38:#39 // println:(I)V</span><br><span class="line">#32 = Utf8 cn/itcast/jvm/t3/bytecode/Demo3_1</span><br><span class="line">#33 = Utf8 java/lang/Object</span><br><span class="line">#34 = Utf8 java/lang/System</span><br><span class="line">#35 = Utf8 out</span><br><span class="line">#36 = Utf8 Ljava/io/PrintStream;</span><br><span class="line">#37 = Utf8 java/io/PrintStream</span><br><span class="line">#38 = Utf8 println</span><br><span class="line">#39 = Utf8 (I)V</span><br><span class="line">&#123;</span><br><span class="line">public cn.itcast.jvm.t3.bytecode.Demo3_1();</span><br><span class="line">descriptor: ()V</span><br><span class="line">flags: ACC_PUBLIC</span><br><span class="line">Code:</span><br><span class="line">stack=1, locals=1, args_size=1</span><br><span class="line">0: aload_0</span><br><span class="line">1: invokespecial #1 // Method java/lang/Object.&quot;</span><br><span class="line">&lt;init&gt;&quot;:()V</span><br><span class="line">4: return</span><br><span class="line">LineNumberTable:</span><br><span class="line">line 6: 0</span><br><span class="line">LocalVariableTable:</span><br><span class="line">Start Length Slot Name Signature</span><br><span class="line">0 5 0 this Lcn/itcast/jvm/t3/bytecode/Demo3_1;</span><br><span class="line">public static void main(java.lang.String[]);</span><br><span class="line">descriptor: ([Ljava/lang/String;)V</span><br><span class="line">flags: ACC_PUBLIC, ACC_STATIC</span><br><span class="line">Code:</span><br><span class="line">stack=2, locals=4, args_size=1</span><br><span class="line">0: bipush 10</span><br><span class="line">2: istore_1</span><br><span class="line">3: ldc #3 // int 32768</span><br><span class="line">5: istore_2</span><br><span class="line">6: iload_1</span><br><span class="line">7: iload_2</span><br><span class="line">8: iadd</span><br><span class="line">9: istore_3</span><br><span class="line">10: getstatic #4 // Field</span><br><span class="line">java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">13: iload_3</span><br><span class="line">14: invokevirtual #5 // Method</span><br><span class="line">java/io/PrintStream.println:(I)V</span><br><span class="line">17: return</span><br><span class="line">LineNumberTable:</span><br><span class="line">line 8: 0</span><br><span class="line">line 9: 3</span><br><span class="line">line 12: 17</span><br><span class="line">LocalVariableTable:</span><br><span class="line">Start Length Slot Name Signature</span><br><span class="line">0 18 0 args [Ljava/lang/String;</span><br><span class="line">3 15 1 a I</span><br><span class="line">6 12 2 b I</span><br><span class="line">10 8 3 c I</span><br><span class="line">MethodParameters:</span><br><span class="line">Name Flags</span><br><span class="line">args</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p><strong>常量池载入运行时常量池</strong></p>
-<img src="filename/12.png" style="zoom: 67%;" />
-
-
-
+<p><img src="/filename/12.png"></p>
 <p><strong>字节方法码载入方法区</strong></p>
-<img src="../filename/13 .png" style="zoom:67%;" />
-
+<p>![](filename&#x2F;13 .png)</p>
 <p><strong>main线程开始运行，分配栈帧内存</strong></p>
 <p><img src="/filename/14.png"></p>
 <p><strong>执行引擎开始执行字节码</strong></p>
@@ -298,19 +289,16 @@
 <ul>
 <li>将操作数栈栈顶元素弹出，放入局部变量表的slot 1中</li>
 </ul>
-<img src="filename/15.png" style="zoom:50%;" />
-
+<p><img src="/filename/15.png"></p>
 <p><strong>ldc #3</strong>：</p>
 <ul>
 <li>从常量池加载 #3 数据到操作数栈</li>
 <li>注意 <code>Short.MAX_VALUE</code> 是 32767，所以 32768 &#x3D; Short.MAX_VALUE + 1 实际是在编译期间计算好的</li>
 </ul>
-<img src="filename/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATEwuTEVCUk9O,size_20,color_FFFFFF,t_70,g_se,x_16.png" alt="在这里插入图片描述" style="zoom:50%;" />
-
+<p><img src="/filename/20.png"></p>
 <p><strong>istore_2</strong>：</p>
 <p>将操作数栈中的元素弹出，放到局部变量表的2号位置</p>
-<img src="filename/16.png" style="zoom:50%;" />
-
+<p><img src="/filename/16.png"></p>
 <p><strong>iload1</strong>：</p>
 <p>将局部变量表中1号位置的元素放入操作数栈中</p>
 <p><strong>iload2</strong>：</p>
@@ -573,8 +561,7 @@
 </ul>
 <h3 id="扩展类加载器"><a href="#扩展类加载器" class="headerlink" title="扩展类加载器"></a>扩展类加载器</h3><p>如果classpath和JAVA_HOME&#x2F;jre&#x2F;lib&#x2F;ext 下有同名类，加载时会使用<strong>拓展类加载器</strong>加载。当应用程序类加载器发现拓展类加载器已将该同名类加载过了，则不会再次加载</p>
 <h3 id="双亲委派模式"><a href="#双亲委派模式" class="headerlink" title="双亲委派模式"></a>双亲委派模式</h3><p>双亲委派模式源码</p>
-<img src="../filename/18.png" style="zoom: 50%;" />
-
+<p><img src="/filename/18.png"></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> Class&lt;?&gt; loadClass(String name, <span class="type">boolean</span> resolve)</span><br><span class="line">    <span class="keyword">throws</span> ClassNotFoundException &#123;</span><br><span class="line">    <span class="keyword">synchronized</span> (getClassLoadingLock(name)) &#123;</span><br><span class="line">        <span class="comment">// 1. 检查该类是否已经加载</span></span><br><span class="line">        Class&lt;?&gt; c = findLoadedClass(name);</span><br><span class="line">        <span class="keyword">if</span> (c == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="type">long</span> <span class="variable">t0</span> <span class="operator">=</span> System.nanoTime();</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (parent != <span class="literal">null</span>) &#123;</span><br><span class="line">                    <span class="comment">// 2. 有上级的话，委派上级 loadClass</span></span><br><span class="line">                    c = parent.loadClass(name, <span class="literal">false</span>);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="comment">// 3. 如果没有上级了（ExtClassLoader），则委派</span></span><br><span class="line">                    <span class="type">BootstrapClassLoader</span></span><br><span class="line">                        <span class="variable">c</span> <span class="operator">=</span> findBootstrapClassOrNull(name);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (c == <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="type">long</span> <span class="variable">t1</span> <span class="operator">=</span> System.nanoTime();</span><br><span class="line">                <span class="comment">// 4. 每一层找不到，调用 findClass 方法（每个类加载器自己扩展）来加载</span></span><br><span class="line">                c = findClass(name);</span><br><span class="line">                <span class="comment">// 5. 记录耗时</span></span><br><span class="line">                sun.misc.PerfCounter.getParentDelegationTime().addTime(t1 - t0);</span><br><span class="line">                sun.misc.PerfCounter.getFindClassTime().addElapsedTimeFrom(t1);</span><br><span class="line">                sun.misc.PerfCounter.getFindClasses().increment();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (resolve) &#123;</span><br><span class="line">            resolveClass(c);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> c;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <ul>
@@ -601,9 +588,6 @@
 <li>只能打破双亲委派，启动类直接请求系统类加载器去classpath下加载驱动（正常是向上委托，这个反过来了），而打破双亲委派的就是这个线程上下文类加载器载路径下，启动类无法加载，而驱动管理需要用到这些驱动</li>
 <li>过程就是：启动类加载器加载DriverManager，DriverManager代码里调用了线程上下文类加载器，这个加载器默认就是使用应用程序类加载器加载类，通过应用程序类加载器加载<strong>jdbc</strong>驱动</li>
 </ul>
-<p>![](..&#x2F;filename&#x2F;屏幕截图 2023-09-24 004225.png)</p>
-<img src="../filename/屏幕截图 2023-09-24 004439.png" style="zoom: 67%;" />
-
 <h3 id="自定义类加载器"><a href="#自定义类加载器" class="headerlink" title="自定义类加载器"></a>自定义类加载器</h3><p><strong>什么时候需要自定义类加载器？</strong></p>
 <ul>
 <li>想加载非 classpath 随意路径中的类文件。想加载的文件即不在启动，也不再扩展，也不再classpath下。想找任意路径下的类文件。</li>
@@ -803,7 +787,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -816,7 +800,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

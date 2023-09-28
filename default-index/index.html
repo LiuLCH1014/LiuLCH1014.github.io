@@ -167,6 +167,124 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/09/28/springcloud/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="LLCH Liu">
+      <meta itemprop="description" content="Here we go!!!!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Here We Go">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/09/28/springcloud/" class="post-title-link" itemprop="url">springcloud</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-09-28 10:35:18 / 修改时间：10:49:00" itemprop="dateCreated datePublished" datetime="2023-09-28T10:35:18+08:00">2023-09-28</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>随着服务越来越多，代码耦合越来越多。所以大型互联网项目必须去做拆分。把大型项目拆分为多个独立的项目，每个项目完成独立的一部分，将来独立开发部署。一个大业务需要多个服务完成。</p>
+<p>微服务中还有一个组件叫做注册中心，可以记录微服务中每一个服务的IP的端口以及能干什么事得信息</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/09/28/springboot/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="LLCH Liu">
+      <meta itemprop="description" content="Here we go!!!!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Here We Go">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/09/28/springboot/" class="post-title-link" itemprop="url">springboot</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-09-28 10:34:15 / 修改时间：10:34:57" itemprop="dateCreated datePublished" datetime="2023-09-28T10:34:15+08:00">2023-09-28</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/09/25/java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -198,8 +316,17 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-09-26 16:25:46" itemprop="dateModified" datetime="2023-09-26T16:25:46+08:00">2023-09-26</time>
+                <time title="修改时间：2023-09-27 16:55:37" itemprop="dateModified" datetime="2023-09-27T16:55:37+08:00">2023-09-27</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">-JVM</span></a>
+                </span>
+            </span>
 
           
 
@@ -213,8 +340,9 @@
 
       
           <p>简单的说，JMM 定义了一套在多线程环境下读写共享数据时（成员变量、数组）时，对数据的可见性、有序 性、和原子性的规则和保障。和内存结构没什么关系</p>
+<p>原子性还要保证数据能及时从工作内存返回到主内存，期间不被其他线程抢占cpu</p>
 <h1 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h1><p>问题提出，两个线程对初始值为 0 的静态变量一个做自增，一个做自减，各做 5000 次，结果不一定是 0。</p>
-<p>![](filename&#x2F;屏幕截图 2023-09-25 165817.png)</p>
+<p><img src="/filename/24.png"></p>
 <p>如果是单线程以上 8 行代码是顺序执行（不会交错）没有问题：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 假设i的初始值为0</span><br><span class="line">getstatic i // 线程1-获取静态变量i的值 线程内i=0</span><br><span class="line">iconst_1 // 线程1-准备常量1</span><br><span class="line">iadd // 线程1-自增 线程内i=1</span><br><span class="line">putstatic i // 线程1-将修改后的值存入静态变量i 静态变量i=1</span><br><span class="line">getstatic i // 线程1-获取静态变量i的值 线程内i=1</span><br><span class="line">iconst_1 // 线程1-准备常量1</span><br><span class="line">isub // 线程1-自减 线程内i=0</span><br><span class="line">putstatic i // 线程1-将修改后的值存入静态变量i 静态变量i=0</span><br></pre></td></tr></table></figure>
 
@@ -232,12 +360,53 @@
 <p>用 <code>synchronized</code> 解决并发问题：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"><span class="keyword">static</span> <span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Object</span>();</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException &#123;</span><br><span class="line"><span class="type">Thread</span> <span class="variable">t1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Thread</span>(() -&gt; &#123;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; <span class="number">5000</span>; j++) &#123;</span><br><span class="line"><span class="keyword">synchronized</span> (obj) &#123;</span><br><span class="line">i++;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="type">Thread</span> <span class="variable">t2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Thread</span>(() -&gt; &#123;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; <span class="number">5000</span>; j++) &#123;</span><br><span class="line"><span class="keyword">synchronized</span> (obj) &#123;</span><br><span class="line">i--;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;);</span><br><span class="line">t1.start();</span><br><span class="line">t2.start();</span><br><span class="line">t1.join();</span><br><span class="line">t2.join();</span><br><span class="line">System.out.println(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h1 id="可见性"><a href="#可见性" class="headerlink" title="可见性"></a>可见性</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="variable">run</span> <span class="operator">=</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="type">Thread</span> <span class="variable">t1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Thread</span>(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">while</span>(run) &#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="string">&quot;t1&quot;</span>);</span><br><span class="line"></span><br><span class="line">        t1.start();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        log.info(<span class="string">&quot;t1 Stop&quot;</span>);</span><br><span class="line">        run = <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="可见性"><a href="#可见性" class="headerlink" title="可见性"></a>可见性</h1><p>因为 t 线程要频繁从主内存中读取 run 的值，JIT 编译器会将 run 的值缓存至自己工作内存中的高 速缓存中，减少对主存中 run 的访问，提高效率</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="variable">run</span> <span class="operator">=</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="type">Thread</span> <span class="variable">t1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Thread</span>(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">while</span>(run) &#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="string">&quot;t1&quot;</span>);</span><br><span class="line"></span><br><span class="line">        t1.start();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        log.info(<span class="string">&quot;t1 Stop&quot;</span>);</span><br><span class="line">        run = <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 
 
 <p>首先 t1 线程运行，然后过一秒，主线程设置 run 的值为 false，想让 t1 线程停止下来，但是 t1 线程并没有停，分析如下图：</p>
 <p><img src="/filename/19.png"></p>
+<h2 id="解决方法：-1"><a href="#解决方法：-1" class="headerlink" title="解决方法："></a>解决方法：</h2><ul>
+<li><p>volatile（易变关键字） 它可以用来修饰成员变量和静态成员变量，他可以避免线程从自己的工作缓存中查找变量的值，必须到<strong>主存</strong>中获取它的值，线程操作 volatile 变量都是直接操作主存</p>
+</li>
+<li><p>volatile内部实现机制就是MESI协议，应该是先判断该变量的缓存行状态是否失效，如果失效，才会重新从内存中读取该变量的值，而不是每次都从内存中读取。</p>
+</li>
+<li><p>synchronized保证可见性，原子性，有序性</p>
+</li>
+<li><p>synchronized获取锁会从主存刷新值，释放锁也会将修改的值刷新到主存，保证了可见性</p>
+</li>
+<li><p>因为println加了synchronized，synchronized会先清理缓存再读</p>
+</li>
+</ul>
+<h1 id="有序性"><a href="#有序性" class="headerlink" title="有序性"></a>有序性</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">num</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// volatile 修饰的变量，可以禁用指令重排 volatile boolean ready = false; 可以防止变量之前的代码被重排序</span></span><br><span class="line"><span class="type">boolean</span> <span class="variable">ready</span> <span class="operator">=</span> <span class="literal">false</span>; </span><br><span class="line"><span class="comment">// 线程1 执行此方法</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">actor1</span><span class="params">(I_Result r)</span> &#123;</span><br><span class="line"> <span class="keyword">if</span>(ready) &#123;</span><br><span class="line"> 	r.r1 = num + num;</span><br><span class="line"> &#125; </span><br><span class="line"> <span class="keyword">else</span> &#123;</span><br><span class="line"> 	r.r1 = <span class="number">1</span>;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 线程2 执行此方法</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">actor2</span><span class="params">(I_Result r)</span> &#123;</span><br><span class="line"> num = <span class="number">2</span>;</span><br><span class="line"> ready = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在多线程环境下，以上的代码 r1 的值有三种情况：<br>第一种：线程 2 先执行，然后线程 1 后执行，r1 的结果为 4<br>第二种：线程 1 先执行，然后线程 2 后执行，r1 的结果为 1<br>第三种：线程 2 先执行，但是发送了指令重排，num &#x3D; 2 与 ready &#x3D; true 这两行代码语序发生装换，然后执行 ready &#x3D; true 后，线程 1 运行了，那么 r1 的结果是为 0。</p>
+<p>这种现象叫做指令重排，是 JIT 编译器在运行时的一些优化，这个现象需要通过大量测试才能复现： 借助 java 并发压测工具 jcstress <a target="_blank" rel="noopener" href="https://wiki.openjdk.java.net/display/CodeTools/jcstress">https://wiki.openjdk.java.net/display/CodeTools/jcstress</a></p>
+<p>指令重排的例子，double-checked locking 问题：</p>
+<p>第一个if不加的话,每次调用这个方法都得加锁,加上if,只有在第一次调用该方法时需要加锁,等该对象的instance初始化后在调用该方法,直接return不加锁</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">	<span class="comment">// 最开始的单例模式是这样的</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span> &#123; &#125;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">Singleton</span> <span class="variable">INSTANCE</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 首次访问会同步，而之后的使用不用进入synchronized</span></span><br><span class="line">        <span class="keyword">synchronized</span>(Singleton.class) &#123;</span><br><span class="line">        	<span class="keyword">if</span> (INSTANCE == <span class="literal">null</span>) &#123; <span class="comment">// t1</span></span><br><span class="line">        		INSTANCE = <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">            <span class="keyword">return</span> INSTANCE;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">// 但是上面的代码块的效率是有问题的，因为即使已经产生了单实例之后，之后调用了getInstance()方法之后还是会加锁，这会严重影响性能！因此就有了模式如下double-checked lockin：</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span> &#123; &#125;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">Singleton</span> <span class="variable">INSTANCE</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">if</span>(INSTANCE == <span class="literal">null</span>) &#123; <span class="comment">// t2</span></span><br><span class="line">                <span class="comment">// 首次访问会同步，而之后的使用没有 synchronized</span></span><br><span class="line">                <span class="keyword">synchronized</span>(Singleton.class) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (INSTANCE == <span class="literal">null</span>) &#123; <span class="comment">// t1</span></span><br><span class="line">                        INSTANCE = <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> INSTANCE;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//但是上面的if(INSTANCE == null)判断代码没有在同步代码块synchronized中，不能享有synchronized保证的原子性，可见性。所以</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>正常是先调用构造方法再赋值引用，调过来的话多线程就会出现没有构造完成的对象被使用，报错，调用构造方法比较耗时</p>
+<hr>
+<h1 id="CAS"><a href="#CAS" class="headerlink" title="CAS"></a>CAS</h1><p>CAS 即 Compare and Swap ，它体现的一种乐观锁的思想，比如多个线程要对一个共享的整型变量执 行 +1 操作：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="literal">true</span>) &#123;</span><br><span class="line"><span class="type">int</span> 旧值 = 共享变量 ; <span class="comment">// 比如拿到了当前值 0</span></span><br><span class="line"><span class="type">int</span> 结果 = 旧值 + <span class="number">1</span>; <span class="comment">// 在旧值 0 的基础上增加 1 ，正确结果是 1</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">这时候如果别的线程把共享变量改成了 5，本线程的正确结果 1 就作废了，这时候</span></span><br><span class="line"><span class="comment">compareAndSwap 返回 false，重新尝试，直到：</span></span><br><span class="line"><span class="comment">compareAndSwap 返回 true，表示我本线程做修改的同时，别的线程没有干扰</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">if</span>( compareAndSwap ( 旧值, 结果 )) &#123;</span><br><span class="line"><span class="comment">// 成功，退出循环</span></span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>compareAndSwap</code>，是根据地址再取一次旧值（新旧值）,然后与旧值（旧旧值）比较，如果一样就set（内部保证原子性）结果，不一样就再试。</p>
+<p>获取共享变量时，为了保证该变量的可见性，需要使用 volatile 修饰。结合 CAS 和 volatile 可以实现无 锁并发，适用于竞争不激烈、多核 CPU 的场景下。 </p>
+<ul>
+<li>因为没有使用 synchronized，所以线程不会陷入阻塞，这是效率提升的因素之一 </li>
+<li>但如果竞争激烈，可以想到重试必然频繁发生，反而效率会受影响</li>
+</ul>
+<p>CAS 底层依赖于一个 Unsafe 类来直接调用操作系统底层的 CAS 指令。 </p>
+<h2 id="乐观锁和悲观锁"><a href="#乐观锁和悲观锁" class="headerlink" title="乐观锁和悲观锁"></a>乐观锁和悲观锁</h2><p><strong>CAS</strong> 是基于乐观锁的思想：最乐观的估计，不怕别的线程来修改共享变量，就算改了也没关系， 我吃亏点再重试呗。 </p>
+<p><strong>synchronized</strong> 是基于悲观锁的思想：最悲观的估计，得防着其它线程来修改共享变量，我上了锁 你们都别想改，我改完了解开锁，你们才有机会。</p>
+<h2 id="原子操作类"><a href="#原子操作类" class="headerlink" title="原子操作类"></a>原子操作类</h2><p><code>java.util.concurrent.atomic</code>并发包提供了一些并发工具类，可以提供线程安全的操作，他们底层就是采用CAS技术+volatile实现的，这里把它分成五类：<br>使用原子的方式更新基本类型</p>
+<ul>
+<li>AtomicInteger：整型原子类</li>
+<li>AtomicLong：长整型原子类</li>
+<li>AtomicBoolean ：布尔型原子类</li>
+</ul>
 
       
     </div>
@@ -280,9 +449,24 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-09-21 15:52:56 / 修改时间：17:06:01" itemprop="dateCreated datePublished" datetime="2023-09-21T15:52:56+08:00">2023-09-21</time>
+              <time title="创建时间：2023-09-21 15:52:56" itemprop="dateCreated datePublished" datetime="2023-09-21T15:52:56+08:00">2023-09-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-09-27 22:33:45" itemprop="dateModified" datetime="2023-09-27T22:33:45+08:00">2023-09-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">-JVM</span></a>
+                </span>
             </span>
 
           
@@ -296,8 +480,20 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>synchronized关键字解决的是多个线程之间访问资源的同步性，synchronized 翻译为中文的意思是同步，也称之为”同步锁“。</p>
-<p>synchronized的作用是保证在同一时刻， 被修饰的代码块或方法只会有一个线程执行，以达到保证并发安全的效果。</p>
+          <ul>
+<li><p>synchronized关键字解决的是多个线程之间访问资源的同步性，synchronized 翻译为中文的意思是同步，也称之为”同步锁“。</p>
+</li>
+<li><p>synchronized的作用是保证在同一时刻， 被修饰的代码块或方法只会有一个线程执行，以达到保证并发安全的效果。</p>
+</li>
+<li><p>synchronized具体来说，当一个线程获取到锁时，它会把当前线程的本地内存中的共享变量值与主内存中的共享变量值进行比较，如果不一致，则使用本地内存中的共享变量值更新主内存中的共享变量值。</p>
+</li>
+<li><p>synchronized保证可见性，原子性，有序性</p>
+</li>
+<li><p>synchronized获取锁会从主存刷新值，释放锁也会将修改的值刷新到主存，保证了可见性</p>
+</li>
+<li><p>因为println加了synchronized，synchronized会先清理缓存再读</p>
+</li>
+</ul>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">        <span class="type">Object</span> <span class="variable">lock</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Object</span>();</span><br><span class="line">        <span class="keyword">synchronized</span> (lock) &#123;</span><br><span class="line">            System.out.println(i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">Code:</span><br><span class="line">     stack=2, locals=5, args_size=1</span><br><span class="line">        0: bipush        10</span><br><span class="line">        2: istore_1</span><br><span class="line">        3: new           #2                  // class java/lang/Object</span><br><span class="line">        6: dup</span><br><span class="line">        7: invokespecial #1                  // Method java/lang/Object.&quot;&lt;init&gt;&quot;:()V</span><br><span class="line">       10: astore_2</span><br><span class="line">       11: aload_2</span><br><span class="line">       12: dup</span><br><span class="line">       13: astore_3</span><br><span class="line">       14: monitorenter //加锁</span><br><span class="line">       15: getstatic     #3                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">       18: iload_1</span><br><span class="line">       19: invokevirtual #4                  // Method java/io/PrintStream.println:(I)V</span><br><span class="line">      astore_3</span><br><span class="line">       23: monitorexit //解锁</span><br><span class="line">       24: goto          34</span><br><span class="line">       //异常操作</span><br><span class="line">       27: astore        4</span><br><span class="line">       29: aload_3</span><br><span class="line">       30: monitorexit //解锁</span><br><span class="line">       31: aload         4</span><br><span class="line">       33: athrow</span><br><span class="line">       34: return</span><br><span class="line">     Exception table:</span><br><span class="line">        from    to  target type</span><br><span class="line">           15    24    27   any</span><br><span class="line">           27    31    27   any</span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -310,6 +506,61 @@
 <p> <code>astore_3</code>先把lock引用存储到3号槽位，栈顶还剩下一个lock引用，此引用配合<code>monitorenter</code>把lock引用消耗，对lock引用指向的对象进行了一个加锁的操作，然后执行打印操作<code>system.out.println</code>15~19。</p>
 <p>如果没有异常 <code>astore_3</code>把lcok引用加载到栈顶再执行<code>23: monitorexit</code>对同一个对象执行解锁，然后goto 34结束。</p>
 <p>如果出现异常查看异常表<code>Exception table</code>，如果from 15 to 24 出现异常进入27（from27 to 31同理） ，<code>astore</code>存储异常，  <code>astore_3</code>把lcok引用加载到栈顶再执行<code>23: monitorexit</code>对同一个对象执行解锁，<code>aload</code>加载出之前存在4号槽位的异常，<code>athrow</code>抛出，最后结束。</p>
+<h1 id="synchronized优化"><a href="#synchronized优化" class="headerlink" title="synchronized优化"></a>synchronized优化</h1><p>Java HotSpot 虚拟机中，每个对象都有对象头（包括 class 指针和 Mark Word）一共八个字节。Mark Word 平时存 储这个对象的 <code>哈希码</code> 、 <code>分代年龄</code> ，当加锁时，这些信息就根据情况被替换为 <code>标记位</code> 、 <code>线程锁记录指 针</code> 、 <code>重量级锁指针</code> 、 <code>线程ID</code> 等内容</p>
+<p><strong>标记位</strong>就是标记为添加的是轻量级锁，重量级锁，还是偏向锁。</p>
+<h2 id="轻量级锁"><a href="#轻量级锁" class="headerlink" title="轻量级锁"></a>轻量级锁</h2><p>如果一个对象虽然有多线程访问，需要synchronized保护，但多线程访问的时间是错开的（也就是没有竞争），那么可以使用轻 量级锁来优化。</p>
+<p>好比：学生（线程 A）用课本占座，上了半节课，出门了（CPU时间到），回来一看，发现课本没变，说明没 有竞争，继续上他的课。 如果这期间有其它学生（线程 B）来了，会告知（线程A）有并发访问，线程 A 随即升级为重量级锁， 进入重量级锁的流程（此升级过程为<strong>锁膨胀</strong>）。 而重量级锁就不是那么用课本占座那么简单了，可以想象线程 A 走之前，把座位用一个铁栅栏围起来</p>
+<p>每个线程都的栈帧都会包含一个锁记录的结构，内部可以存储锁定对象的 Mark Word。将来解锁的时候，暂存的MarkWord的信息返回去。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">static Object obj = new Object();</span><br><span class="line">public static void method1() &#123;</span><br><span class="line">synchronized( obj ) &#123;</span><br><span class="line">// 同步块 A</span><br><span class="line">method2();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">public static void method2() &#123;</span><br><span class="line">synchronized( obj ) &#123;</span><br><span class="line">// 同步块 B</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><strong>25</strong></li>
+</ul>
+<p><img src="/../filename/25.png">  </p>
+<h1 id="重量级锁"><a href="#重量级锁" class="headerlink" title="重量级锁"></a>重量级锁</h1><p>重量级锁竞争的时候，还可以使用自旋来进行优化，如果当前线程自旋成功（即这时候持锁线程已经退 出了同步块，释放了锁），这时当前线程就可以避免阻塞。 在 Java 6 之后自旋锁是自适应的，比如对象刚刚的一次自旋操作成功过，那么认为这次自旋成功的可能 性会高，就多自旋几次；反之，就少自旋甚至不自旋，总之，比较智能。</p>
+<ul>
+<li>自旋会占用 CPU 时间，单核 CPU 自旋就是浪费，多核 CPU 自旋才能发挥优势。</li>
+<li>好比等红灯时汽车是不是熄火，不熄火相当于自旋（等待时间短了划算），熄火了相当于阻塞（等 待时间长了划算）</li>
+<li>Java 7 之后不能控制是否开启自旋功能</li>
+</ul>
+<p>自旋多次后，不能加锁就进入阻塞状态</p>
+<h2 id="偏向锁"><a href="#偏向锁" class="headerlink" title="偏向锁"></a>偏向锁</h2><p>轻量级锁在没有竞争时（就自己这个线程），每次重入仍然需要执行 CAS 操作。Java 6 中引入了偏向锁 来做进一步优化：只有第一次使用 CAS 将线程 ID 设置到对象的 Mark Word 头，之后<strong>发现这个线程 ID 是自己的就表示没有竞争，不用重新 CAS.</strong> </p>
+<ul>
+<li><strong>撤销偏向锁</strong>需要将持锁线程升级为轻量级锁，这个过程中所有线程需要暂停（<strong>STW</strong>） </li>
+<li>访问对象的 hashCode 也会撤销偏向锁 </li>
+<li>如果对象虽然被多个线程访问，但没有竞争，这时偏向了线程 T1 的对象仍有机会重新偏向 T2， 重偏向会重置对象的 Thread ID </li>
+<li>撤销偏向和重偏向都是批量进行的，以类为单位 </li>
+<li>如果撤销偏向到达某个<strong>阈值</strong>，整个类的所有对象都会变为不可偏向的 </li>
+<li>可以主动使用 <code>-XX:-UseBiasedLocking</code> 禁用偏向锁</li>
+</ul>
+<h2 id="其他优化"><a href="#其他优化" class="headerlink" title="其他优化"></a>其他优化</h2><ol>
+<li><p><strong>减少上锁时间</strong> </p>
+<p>同步代码块中尽量短。上锁时间段，竞争机会少。不要把一大堆代码都用synchronized关键字包起来。</p>
+</li>
+<li><p><strong>减少锁的力度</strong></p>
+<p>一个锁拆成多个锁是可以提高并发度的：</p>
+<ul>
+<li><p>ConcurrentHashMap。相当于把数组的链表头上加锁，锁住了整个hashtable，读写操作是完全互斥的，如果锁住链表头相当于加锁的力度变小，每次都是锁住一个链表，其他链表的读写操作不受影响</p>
+</li>
+<li><p>LongAdder 分为 base 和 cells 两部分。没有并发争用的时候或者是 cells 数组正在初始化的时 候，会使用 CAS 来累加值到 base，有并发争用，会初始化 cells 数组，数组有多少个 cell，就允 许有多少线程并行修改，最后将数组中每个 cell 累加，再加上 base 就是最终的值</p>
+</li>
+<li><p>LinkedBlockingQueue 入队和出队使用不同的锁，相对于LinkedBlockingArray只有一个锁效率要 高</p>
+</li>
+</ul>
+<p><strong>3.锁的粗化</strong></p>
+<p>多次循环进入同步块不如同步块内多次循环 </p>
+<p>另外 JVM 可能会做如下优化，把多次 append 的加锁操作粗化为一次（因为都是对同一个对象加锁， 没必要重入多次）</p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">StringBuffer</span>().append(<span class="string">&quot;a&quot;</span>).append(<span class="string">&quot;b&quot;</span>).append(<span class="string">&quot;c&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><p><strong>锁消除 JVM</strong> </p>
+<p>会进行代码的<strong>逃逸分析</strong>，例如某个加锁对象是方法内局部变量，不会被其它线程所访问到，这时候 就会被即时编译器忽略掉所有同步操作。比如说上面的stringbuffer没被其他线程访问到，机会吧string buffer的synchronized消除掉</p>
+</li>
+</ol>
 
       
     </div>
@@ -420,7 +671,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-09-26 16:29:10" itemprop="dateModified" datetime="2023-09-26T16:29:10+08:00">2023-09-26</time>
+                <time title="修改时间：2023-09-26 17:06:17" itemprop="dateModified" datetime="2023-09-26T17:06:17+08:00">2023-09-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -443,10 +694,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <img src="filename/11.png" style="zoom:50%;" />
-
-
-
+          <p><img src="/filename/11.png"></p>
 <h1 id="类加载"><a href="#类加载" class="headerlink" title="类加载"></a>类加载</h1><p>执行 <code>javac -parameters -d . HellowWorld.java</code></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// HelloWorld 示例</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HelloWorld</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;hello world&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -477,13 +725,9 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# javap -v Demo3_1.class</span><br><span class="line">Classfile /root/Demo3_1.class</span><br><span class="line">Last modified Jul 7, 2019; size 665 bytes</span><br><span class="line">MD5 checksum a2c29a22421e218d4924d31e6990cfc5</span><br><span class="line">Compiled from &quot;Demo3_1.java&quot;</span><br><span class="line">public class cn.itcast.jvm.t3.bytecode.Demo3_1</span><br><span class="line">minor version: 0</span><br><span class="line">major version: 52</span><br><span class="line">flags: ACC_PUBLIC, ACC_SUPER</span><br><span class="line">Constant pool:</span><br><span class="line">#1 = Methodref #7.#26 // java/lang/Object.&quot;&lt;init&gt;&quot;:()V</span><br><span class="line">#2 = Class #27 // java/lang/Short</span><br><span class="line">#3 = Integer 32768</span><br><span class="line">#4 = Fieldref #28.#29 //</span><br><span class="line">java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">#5 = Methodref #30.#31 // java/io/PrintStream.println:(I)V</span><br><span class="line">#6 = Class #32 // cn/itcast/jvm/t3/bytecode/Demo3_1</span><br><span class="line">#7 = Class #33 // java/lang/Object</span><br><span class="line">#8 = Utf8 &lt;init&gt;</span><br><span class="line">#9 = Utf8 ()V</span><br><span class="line">#10 = Utf8 Code</span><br><span class="line">#11 = Utf8 LineNumberTable</span><br><span class="line">#12 = Utf8 LocalVariableTable</span><br><span class="line">#13 = Utf8 this</span><br><span class="line">#14 = Utf8 Lcn/itcast/jvm/t3/bytecode/Demo3_1;</span><br><span class="line">#15 = Utf8 main</span><br><span class="line">#16 = Utf8 ([Ljava/lang/String;)V</span><br><span class="line">#17 = Utf8 args</span><br><span class="line">#18 = Utf8 [Ljava/lang/String;</span><br><span class="line">#19 = Utf8 a</span><br><span class="line">#22 = Utf8 c</span><br><span class="line">#23 = Utf8 MethodParameters</span><br><span class="line">#24 = Utf8 SourceFile</span><br><span class="line">#25 = Utf8 Demo3_1.java</span><br><span class="line">#26 = NameAndType #8:#9 // &quot;&lt;init&gt;&quot;:()V</span><br><span class="line">#27 = Utf8 java/lang/Short</span><br><span class="line">#28 = Class #34 // java/lang/System</span><br><span class="line">#29 = NameAndType #35:#36 // out:Ljava/io/PrintStream;</span><br><span class="line">#30 = Class #37 // java/io/PrintStream</span><br><span class="line">#31 = NameAndType #38:#39 // println:(I)V</span><br><span class="line">#32 = Utf8 cn/itcast/jvm/t3/bytecode/Demo3_1</span><br><span class="line">#33 = Utf8 java/lang/Object</span><br><span class="line">#34 = Utf8 java/lang/System</span><br><span class="line">#35 = Utf8 out</span><br><span class="line">#36 = Utf8 Ljava/io/PrintStream;</span><br><span class="line">#37 = Utf8 java/io/PrintStream</span><br><span class="line">#38 = Utf8 println</span><br><span class="line">#39 = Utf8 (I)V</span><br><span class="line">&#123;</span><br><span class="line">public cn.itcast.jvm.t3.bytecode.Demo3_1();</span><br><span class="line">descriptor: ()V</span><br><span class="line">flags: ACC_PUBLIC</span><br><span class="line">Code:</span><br><span class="line">stack=1, locals=1, args_size=1</span><br><span class="line">0: aload_0</span><br><span class="line">1: invokespecial #1 // Method java/lang/Object.&quot;</span><br><span class="line">&lt;init&gt;&quot;:()V</span><br><span class="line">4: return</span><br><span class="line">LineNumberTable:</span><br><span class="line">line 6: 0</span><br><span class="line">LocalVariableTable:</span><br><span class="line">Start Length Slot Name Signature</span><br><span class="line">0 5 0 this Lcn/itcast/jvm/t3/bytecode/Demo3_1;</span><br><span class="line">public static void main(java.lang.String[]);</span><br><span class="line">descriptor: ([Ljava/lang/String;)V</span><br><span class="line">flags: ACC_PUBLIC, ACC_STATIC</span><br><span class="line">Code:</span><br><span class="line">stack=2, locals=4, args_size=1</span><br><span class="line">0: bipush 10</span><br><span class="line">2: istore_1</span><br><span class="line">3: ldc #3 // int 32768</span><br><span class="line">5: istore_2</span><br><span class="line">6: iload_1</span><br><span class="line">7: iload_2</span><br><span class="line">8: iadd</span><br><span class="line">9: istore_3</span><br><span class="line">10: getstatic #4 // Field</span><br><span class="line">java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">13: iload_3</span><br><span class="line">14: invokevirtual #5 // Method</span><br><span class="line">java/io/PrintStream.println:(I)V</span><br><span class="line">17: return</span><br><span class="line">LineNumberTable:</span><br><span class="line">line 8: 0</span><br><span class="line">line 9: 3</span><br><span class="line">line 12: 17</span><br><span class="line">LocalVariableTable:</span><br><span class="line">Start Length Slot Name Signature</span><br><span class="line">0 18 0 args [Ljava/lang/String;</span><br><span class="line">3 15 1 a I</span><br><span class="line">6 12 2 b I</span><br><span class="line">10 8 3 c I</span><br><span class="line">MethodParameters:</span><br><span class="line">Name Flags</span><br><span class="line">args</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p><strong>常量池载入运行时常量池</strong></p>
-<img src="filename/12.png" style="zoom: 67%;" />
-
-
-
+<p><img src="/filename/12.png"></p>
 <p><strong>字节方法码载入方法区</strong></p>
-<img src="../filename/13 .png" style="zoom:67%;" />
-
+<p>![](filename&#x2F;13 .png)</p>
 <p><strong>main线程开始运行，分配栈帧内存</strong></p>
 <p><img src="/filename/14.png"></p>
 <p><strong>执行引擎开始执行字节码</strong></p>
@@ -499,19 +743,16 @@
 <ul>
 <li>将操作数栈栈顶元素弹出，放入局部变量表的slot 1中</li>
 </ul>
-<img src="filename/15.png" style="zoom:50%;" />
-
+<p><img src="/filename/15.png"></p>
 <p><strong>ldc #3</strong>：</p>
 <ul>
 <li>从常量池加载 #3 数据到操作数栈</li>
 <li>注意 <code>Short.MAX_VALUE</code> 是 32767，所以 32768 &#x3D; Short.MAX_VALUE + 1 实际是在编译期间计算好的</li>
 </ul>
-<img src="filename/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATEwuTEVCUk9O,size_20,color_FFFFFF,t_70,g_se,x_16.png" alt="在这里插入图片描述" style="zoom:50%;" />
-
+<p><img src="/filename/20.png"></p>
 <p><strong>istore_2</strong>：</p>
 <p>将操作数栈中的元素弹出，放到局部变量表的2号位置</p>
-<img src="filename/16.png" style="zoom:50%;" />
-
+<p><img src="/filename/16.png"></p>
 <p><strong>iload1</strong>：</p>
 <p>将局部变量表中1号位置的元素放入操作数栈中</p>
 <p><strong>iload2</strong>：</p>
@@ -774,8 +1015,7 @@
 </ul>
 <h3 id="扩展类加载器"><a href="#扩展类加载器" class="headerlink" title="扩展类加载器"></a>扩展类加载器</h3><p>如果classpath和JAVA_HOME&#x2F;jre&#x2F;lib&#x2F;ext 下有同名类，加载时会使用<strong>拓展类加载器</strong>加载。当应用程序类加载器发现拓展类加载器已将该同名类加载过了，则不会再次加载</p>
 <h3 id="双亲委派模式"><a href="#双亲委派模式" class="headerlink" title="双亲委派模式"></a>双亲委派模式</h3><p>双亲委派模式源码</p>
-<img src="../filename/18.png" style="zoom: 50%;" />
-
+<p><img src="/filename/18.png"></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> Class&lt;?&gt; loadClass(String name, <span class="type">boolean</span> resolve)</span><br><span class="line">    <span class="keyword">throws</span> ClassNotFoundException &#123;</span><br><span class="line">    <span class="keyword">synchronized</span> (getClassLoadingLock(name)) &#123;</span><br><span class="line">        <span class="comment">// 1. 检查该类是否已经加载</span></span><br><span class="line">        Class&lt;?&gt; c = findLoadedClass(name);</span><br><span class="line">        <span class="keyword">if</span> (c == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="type">long</span> <span class="variable">t0</span> <span class="operator">=</span> System.nanoTime();</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (parent != <span class="literal">null</span>) &#123;</span><br><span class="line">                    <span class="comment">// 2. 有上级的话，委派上级 loadClass</span></span><br><span class="line">                    c = parent.loadClass(name, <span class="literal">false</span>);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="comment">// 3. 如果没有上级了（ExtClassLoader），则委派</span></span><br><span class="line">                    <span class="type">BootstrapClassLoader</span></span><br><span class="line">                        <span class="variable">c</span> <span class="operator">=</span> findBootstrapClassOrNull(name);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (c == <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="type">long</span> <span class="variable">t1</span> <span class="operator">=</span> System.nanoTime();</span><br><span class="line">                <span class="comment">// 4. 每一层找不到，调用 findClass 方法（每个类加载器自己扩展）来加载</span></span><br><span class="line">                c = findClass(name);</span><br><span class="line">                <span class="comment">// 5. 记录耗时</span></span><br><span class="line">                sun.misc.PerfCounter.getParentDelegationTime().addTime(t1 - t0);</span><br><span class="line">                sun.misc.PerfCounter.getFindClassTime().addElapsedTimeFrom(t1);</span><br><span class="line">                sun.misc.PerfCounter.getFindClasses().increment();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (resolve) &#123;</span><br><span class="line">            resolveClass(c);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> c;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <ul>
@@ -802,9 +1042,6 @@
 <li>只能打破双亲委派，启动类直接请求系统类加载器去classpath下加载驱动（正常是向上委托，这个反过来了），而打破双亲委派的就是这个线程上下文类加载器载路径下，启动类无法加载，而驱动管理需要用到这些驱动</li>
 <li>过程就是：启动类加载器加载DriverManager，DriverManager代码里调用了线程上下文类加载器，这个加载器默认就是使用应用程序类加载器加载类，通过应用程序类加载器加载<strong>jdbc</strong>驱动</li>
 </ul>
-<p>![](..&#x2F;filename&#x2F;屏幕截图 2023-09-24 004225.png)</p>
-<img src="../filename/屏幕截图 2023-09-24 004439.png" style="zoom: 67%;" />
-
 <h3 id="自定义类加载器"><a href="#自定义类加载器" class="headerlink" title="自定义类加载器"></a>自定义类加载器</h3><p><strong>什么时候需要自定义类加载器？</strong></p>
 <ul>
 <li>想加载非 classpath 随意路径中的类文件。想加载的文件即不在启动，也不再扩展，也不再classpath下。想找任意路径下的类文件。</li>
@@ -1606,78 +1843,11 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/09/07/Hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="LLCH Liu">
-      <meta itemprop="description" content="Here we go!!!!">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Here We Go">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/09/07/Hello-world/" class="post-title-link" itemprop="url">底斯堡演讲</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2023-09-07 17:45:52 / 修改时间：18:11:11" itemprop="dateCreated datePublished" datetime="2023-09-07T17:45:52+08:00">2023-09-07</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%8B%B1%E6%96%87%E6%BC%94%E8%AE%B2/" itemprop="url" rel="index"><span itemprop="name">-英文演讲</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal.</p>
-<p>Now we are engaged in a great civil war, testing whether that nation, or any nation so conceived and so dedicated, can long endure. We are met on a great battle-field of that war. We have come to dedicate a portion of that field, as a final resting place for those who here gave their lives that that nation might live. It is altogether fitting and proper that we should do this.</p>
-<p>But, in a larger sense, we can not dedicate—we can not consecrate—we can not hallow—this ground. The brave men, living and dead, who struggled here, have consecrated it, far above our poor power to add or detract. The world will little note, nor long remember what we say here, but it can never forget what they did here. It is for us the living, rather, to be dedicated here to the unfinished work which they who fought here have thus far so nobly advanced. It is rather for us to be here dedicated to the great task remaining before us—that from these honored dead we take increased devotion to that cause for which they gave the last full measure of devotion—that we here highly resolve that these dead shall not have died in vain—that this nation, under God, shall have a new birth of freedom—and that government of the people, by the people, for the people, shall not perish from the earth.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/default-index/page/2/">2</a><a class="extend next" rel="next" href="/default-index/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
 
 
 
@@ -1742,7 +1912,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1755,7 +1925,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
