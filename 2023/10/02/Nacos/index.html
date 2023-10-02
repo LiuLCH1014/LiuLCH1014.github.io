@@ -20,20 +20,20 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":false,"nav":null,"activeClass":"livere"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="调优经验GC调优前置经验经常发生GC 数据太多 resultSet &#x3D;statement.executeQuery(“select * from 大表 limit in”)  数据表示太臃肿？ 只显示用户一部分数据就够。  是否存在内存泄露 长时间存活对象比如（static），尝试软弱引用，第三方缓存实现   新生代调优 TLAB thread-local allocation buff">
+  <meta name="description" content="Nacos前置配置知识nacos首先是个注册中心，其次还是个数据中心 启动命令 windows 启动命令 1startup.cmd -m standalone  Linux启动命令 1sh startup.sh -m standalone  Nacos依赖父工程 1234567&lt;dependency&gt;    &lt;groupId&gt;com.alibaba.cloud&lt;&#x2F;gr">
 <meta property="og:type" content="article">
-<meta property="og:title" content="调优经验">
-<meta property="og:url" content="http://example.com/2023/09/19/experience/index.html">
+<meta property="og:title" content="Nacos">
+<meta property="og:url" content="http://example.com/2023/10/02/Nacos/index.html">
 <meta property="og:site_name" content="Here We Go">
-<meta property="og:description" content="调优经验GC调优前置经验经常发生GC 数据太多 resultSet &#x3D;statement.executeQuery(“select * from 大表 limit in”)  数据表示太臃肿？ 只显示用户一部分数据就够。  是否存在内存泄露 长时间存活对象比如（static），尝试软弱引用，第三方缓存实现   新生代调优 TLAB thread-local allocation buff">
+<meta property="og:description" content="Nacos前置配置知识nacos首先是个注册中心，其次还是个数据中心 启动命令 windows 启动命令 1startup.cmd -m standalone  Linux启动命令 1sh startup.sh -m standalone  Nacos依赖父工程 1234567&lt;dependency&gt;    &lt;groupId&gt;com.alibaba.cloud&lt;&#x2F;gr">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-09-19T09:51:55.000Z">
-<meta property="article:modified_time" content="2023-09-19T15:57:43.839Z">
+<meta property="article:published_time" content="2023-10-02T06:24:37.000Z">
+<meta property="article:modified_time" content="2023-10-02T08:31:59.530Z">
 <meta property="article:author" content="LLCH Liu">
-<meta property="article:tag" content="-JVM -Java">
+<meta property="article:tag" content="-Java -分布式">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2023/09/19/experience/">
+<link rel="canonical" href="http://example.com/2023/10/02/Nacos/">
 
 
 <script id="page-configurations">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>调优经验 | Here We Go</title>
+  <title>Nacos | Here We Go</title>
   
 
 
@@ -171,7 +171,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/09/19/experience/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/10/02/Nacos/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -184,7 +184,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          调优经验
+          Nacos
         </h1>
 
         <div class="post-meta">
@@ -195,16 +195,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-09-19 17:51:55 / 修改时间：23:57:43" itemprop="dateCreated datePublished" datetime="2023-09-19T17:51:55+08:00">2023-09-19</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">-JVM</span></a>
-                </span>
+              <time title="创建时间：2023-10-02 14:24:37 / 修改时间：16:31:59" itemprop="dateCreated datePublished" datetime="2023-10-02T14:24:37+08:00">2023-10-02</time>
             </span>
 
           
@@ -225,39 +216,86 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="调优经验"><a href="#调优经验" class="headerlink" title="调优经验"></a>调优经验</h1><h2 id="GC调优"><a href="#GC调优" class="headerlink" title="GC调优"></a>GC调优</h2><h3 id="前置经验"><a href="#前置经验" class="headerlink" title="前置经验"></a>前置经验</h3><h4 id="经常发生GC"><a href="#经常发生GC" class="headerlink" title="经常发生GC"></a><strong>经常发生GC</strong></h4><ul>
-<li><p>数据太多</p>
-<p>resultSet &#x3D;statement.executeQuery(“select * from 大表 limit in”)</p>
+        <h1 id="Nacos前置配置知识"><a href="#Nacos前置配置知识" class="headerlink" title="Nacos前置配置知识"></a>Nacos前置配置知识</h1><p>nacos首先是个注册中心，其次还是个数据中心</p>
+<p><strong>启动命令</strong></p>
+<p>windows 启动命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">startup.cmd -m standalone</span><br></pre></td></tr></table></figure>
+
+<p>Linux启动命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh startup.sh -m standalone</span><br></pre></td></tr></table></figure>
+
+<h2 id="Nacos依赖"><a href="#Nacos依赖" class="headerlink" title="Nacos依赖"></a>Nacos依赖</h2><p>父工程</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.alibaba.cloud&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-cloud-alibaba-dependencies&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;2.2.5.RELEASE&lt;/version&gt;</span><br><span class="line">    &lt;type&gt;pom&lt;/type&gt;</span><br><span class="line">    &lt;scope&gt;import&lt;/scope&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p>客户端</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- nacos客户端依赖包 --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.alibaba.cloud&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-cloud-starter-alibaba-nacos-discovery&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="服务分级存储模型"><a href="#服务分级存储模型" class="headerlink" title="服务分级存储模型"></a>服务分级存储模型</h1><h2 id="配置集群"><a href="#配置集群" class="headerlink" title="配置集群"></a>配置集群</h2><p>给user-service配置集群</p>
+<p>修改user-service的application.yml文件，添加集群配置：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">nacos:</span></span><br><span class="line">      <span class="attr">server-addr:</span> <span class="string">localhost:8848</span></span><br><span class="line">      <span class="attr">discovery:</span></span><br><span class="line">        <span class="attr">cluster-name:</span> <span class="string">HZ</span> <span class="comment"># 集群名称</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="同集群优先的负载均衡"><a href="#同集群优先的负载均衡" class="headerlink" title="同集群优先的负载均衡"></a>同集群优先的负载均衡</h2><p>默认的<code>ZoneAvoidanceRule</code>并不能实现根据同集群优先来实现负载均衡。</p>
+<p>因此Nacos中提供了一个<code>NacosRule</code>的实现，可以优先从同集群中挑选实例。</p>
+<p>1）给order-service配置集群信息</p>
+<p>修改order-service的application.yml文件，添加集群配置</p>
+<p>2）<strong>修改负载均衡规则，不修改就还是轮询</strong></p>
+<p>修改order-service的application.yml文件，修改负载均衡规则：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">userservice:</span></span><br><span class="line">  <span class="attr">ribbon:</span></span><br><span class="line">    <span class="attr">NFLoadBalancerRuleClassName:</span> <span class="string">com.alibaba.cloud.nacos.ribbon.NacosRule</span> <span class="comment"># 负载均衡规则 </span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="权重配置"><a href="#权重配置" class="headerlink" title="权重配置"></a>权重配置</h2><p>实际部署中会出现这样的场景：</p>
+<p>服务器设备性能有差异，部分实例所在机器性能较好，另一些较差，我们希望性能好的机器承担更多的用户请求。</p>
+<p>但默认情况下NacosRule是同集群内随机挑选，不会考虑机器的性能问题。</p>
+<p>因此，Nacos提供了权重配置来控制访问频率，权重越大则访问频率越高。 </p>
+<ol>
+<li><p>在nacos控制台，找到user-service的实例列表，点击编辑，即可修改权重</p>
 </li>
-<li><p>数据表示太臃肿？</p>
-<p>只显示用户一部分数据就够。</p>
+<li><p>在弹出的编辑窗口，修改权重</p>
 </li>
-<li><p>是否存在内存泄露</p>
-<p>长时间存活对象比如（static），尝试软弱引用，第三方缓存实现</p>
-</li>
-</ul>
-<h4 id="新生代调优"><a href="#新生代调优" class="headerlink" title="新生代调优"></a><strong>新生代调优</strong></h4><ul>
-<li>TLAB thread-local allocation buffer（可防止多个线程创建对象时的互相干扰混乱）</li>
-<li>当新生代发生垃圾回收（新生代都是复制算法），在Eden区域及幸存区<strong>from</strong>对象复制到<strong>to</strong>中。</li>
-<li>Oracle建议新生代大于1&#x2F;4并且小于1&#x2F;2 overall heap size。</li>
-<li><code>-XX:+PrintTenuringDistribution</code> 可以显示详细信息</li>
-</ul>
-<h4 id="老年代内存预设"><a href="#老年代内存预设" class="headerlink" title="老年代内存预设"></a>老年代内存预设</h4><p><code>-XX:CMSInitiatingOccupancyFraction=percent</code>（越大越好，twitter工程师建议设置为0。一般设置为75%~80%）</p>
-<h3 id="实战案例"><a href="#实战案例" class="headerlink" title="实战案例"></a>实战案例</h3><h4 id="Full-GC和Minor-GC频繁"><a href="#Full-GC和Minor-GC频繁" class="headerlink" title="Full GC和Minor GC频繁"></a>Full GC和Minor GC频繁</h4><p>空间紧张，先从新生代开始看，可能是新生代空间太小的原因，新生代空间宽裕了就不再那么频繁了。</p>
-<h4 id="请求高峰期发生Full-GC，单次暂停时间特别长（CMS）"><a href="#请求高峰期发生Full-GC，单次暂停时间特别长（CMS）" class="headerlink" title="请求高峰期发生Full GC，单次暂停时间特别长（CMS）"></a>请求高峰期发生Full GC，单次暂停时间特别长（CMS）</h4><p>查看GC日志，要扫描整个堆内存。发现是重新扫描时间过长，使用<code>-XX:+CMSScavengeBeforceRemark</code>在重新你扫描前进行一次垃圾回收</p>
-<hr>
-<h3 id="线程诊断"><a href="#线程诊断" class="headerlink" title="线程诊断"></a>线程诊断</h3><h3 id="实战案例-1"><a href="#实战案例-1" class="headerlink" title="实战案例"></a>实战案例</h3><h4 id="cpu占用过多"><a href="#cpu占用过多" class="headerlink" title="cpu占用过多"></a>cpu占用过多</h4><p> top 先定位到CPU 占用高的 Java 进程，再利用 top -Hp 进程id 来定位是哪个线程，最后再用 jstack 排查</p>
+</ol>
+<h2 id="环境隔离"><a href="#环境隔离" class="headerlink" title="环境隔离"></a>环境隔离</h2><p>Nacos提供了namespace来实现环境隔离功能。</p>
 <ul>
-<li><p>使用top命令</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用命令查看进程中的线程              pid：进程id，       tid：线程id</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ps H -eo pid,tid,%cpu</span><br><span class="line"></span><br><span class="line">ps H -eo pid,tid,%cpu | grep 进程id      //只留下感兴趣的进程</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>将得到的线程id转化为16进制，在thread[x]，找出具体的thread</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jstack 线程id</span><br></pre></td></tr></table></figure></li>
+<li>nacos中可以有多个namespace</li>
+<li>namespace下可以有group、service等</li>
+<li>不同namespace之间相互隔离，例如不同namespace的服务互相不可见</li>
 </ul>
-<h4 id="迟迟得不到结果"><a href="#迟迟得不到结果" class="headerlink" title="迟迟得不到结果"></a>迟迟得不到结果</h4><p>可能出现了死锁。</p>
+<h3 id="给微服务配置namespace"><a href="#给微服务配置namespace" class="headerlink" title="给微服务配置namespace"></a>给微服务配置namespace</h3><p>给微服务配置namespace只能通过修改配置来实现。</p>
+<p>例如，修改order-service的application.yml文件：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">nacos:</span></span><br><span class="line">      <span class="attr">server-addr:</span> <span class="string">localhost:8848</span></span><br><span class="line">      <span class="attr">discovery:</span></span><br><span class="line">        <span class="attr">cluster-name:</span> <span class="string">HZ</span></span><br><span class="line">        <span class="attr">namespace:</span> <span class="string">492a7d5d-237b-46a1-a99a-fa8e98e4b0f9</span> <span class="comment"># 命名空间，填ID</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Nacos和Eureka差异"><a href="#Nacos和Eureka差异" class="headerlink" title="Nacos和Eureka差异"></a>Nacos和Eureka差异</h2><p>Nacos的服务实例分为两种l类型：</p>
+<ul>
+<li><p>临时实例：如果实例宕机超过一定时间，会从服务列表剔除，默认的类型。</p>
+</li>
+<li><p>非临时实例：如果实例宕机，不会从服务列表剔除，也可以叫永久实例。</p>
+</li>
+</ul>
+<p>Nacos和Eureka整体结构类似，服务注册、服务拉取、心跳等待，但是也存在一些差异：</p>
+<ul>
+<li><p>Nacos与eureka的共同点</p>
+<ul>
+<li>都支持服务注册和服务拉取</li>
+<li>都支持服务提供者心跳方式做健康检测</li>
+</ul>
+</li>
+<li><p>Nacos与Eureka的区别</p>
+<ul>
+<li>Nacos支持服务端主动检测提供者状态：临时实例采用心跳模式，非临时实例采用主动检测模式</li>
+<li>临时实例心跳不正常会被剔除，非临时实例则不会被剔除</li>
+<li>Nacos支持服务列表变更的消息推送模式，服务列表更新更及时</li>
+<li>Nacos集群默认采用AP方式，当集群中存在非临时实例时，采用CP模式；Eureka采用AP方式</li>
+</ul>
+</li>
+</ul>
 
     </div>
 
@@ -273,7 +311,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://example.com/2023/09/19/experience/" title="调优经验">http://example.com/2023/09/19/experience/</a>
+    <a href="http://example.com/2023/10/02/Nacos/" title="Nacos">http://example.com/2023/10/02/Nacos/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -284,7 +322,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/JVM-Java/" rel="tag"># -JVM -Java</a>
+              <a href="/tags/Java-%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag"># -Java -分布式</a>
           </div>
 
         
@@ -293,13 +331,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/09/19/%E8%B0%83%E4%BC%98%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" rel="prev" title="调优常用命令">
-      <i class="fa fa-chevron-left"></i> 调优常用命令
+    <a href="/2023/09/28/springcloud/" rel="prev" title="springcloud">
+      <i class="fa fa-chevron-left"></i> springcloud
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2023/09/19/ClassLoading/" rel="next" title="类加载和字节码技术">
-      类加载和字节码技术 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -363,7 +398,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B0%83%E4%BC%98%E7%BB%8F%E9%AA%8C"><span class="nav-number">1.</span> <span class="nav-text">调优经验</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#GC%E8%B0%83%E4%BC%98"><span class="nav-number">1.1.</span> <span class="nav-text">GC调优</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E7%BB%8F%E9%AA%8C"><span class="nav-number">1.1.1.</span> <span class="nav-text">前置经验</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%8F%E5%B8%B8%E5%8F%91%E7%94%9FGC"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">经常发生GC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B0%E7%94%9F%E4%BB%A3%E8%B0%83%E4%BC%98"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">新生代调优</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%80%81%E5%B9%B4%E4%BB%A3%E5%86%85%E5%AD%98%E9%A2%84%E8%AE%BE"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">老年代内存预设</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E6%88%98%E6%A1%88%E4%BE%8B"><span class="nav-number">1.1.2.</span> <span class="nav-text">实战案例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Full-GC%E5%92%8CMinor-GC%E9%A2%91%E7%B9%81"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">Full GC和Minor GC频繁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%B7%E6%B1%82%E9%AB%98%E5%B3%B0%E6%9C%9F%E5%8F%91%E7%94%9FFull-GC%EF%BC%8C%E5%8D%95%E6%AC%A1%E6%9A%82%E5%81%9C%E6%97%B6%E9%97%B4%E7%89%B9%E5%88%AB%E9%95%BF%EF%BC%88CMS%EF%BC%89"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">请求高峰期发生Full GC，单次暂停时间特别长（CMS）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E8%AF%8A%E6%96%AD"><span class="nav-number">1.1.3.</span> <span class="nav-text">线程诊断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E6%88%98%E6%A1%88%E4%BE%8B-1"><span class="nav-number">1.1.4.</span> <span class="nav-text">实战案例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#cpu%E5%8D%A0%E7%94%A8%E8%BF%87%E5%A4%9A"><span class="nav-number">1.1.4.1.</span> <span class="nav-text">cpu占用过多</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9F%E8%BF%9F%E5%BE%97%E4%B8%8D%E5%88%B0%E7%BB%93%E6%9E%9C"><span class="nav-number">1.1.4.2.</span> <span class="nav-text">迟迟得不到结果</span></a></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
