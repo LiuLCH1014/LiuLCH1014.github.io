@@ -190,10 +190,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-10-02 14:24:37 / 修改时间：16:31:59" itemprop="dateCreated datePublished" datetime="2023-10-02T14:24:37+08:00">2023-10-02</time>
+              <time title="创建时间：2023-10-02 14:24:37" itemprop="dateCreated datePublished" datetime="2023-10-02T14:24:37+08:00">2023-10-02</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-10-04 17:29:47" itemprop="dateModified" datetime="2023-10-04T17:29:47+08:00">2023-10-04</time>
+              </span>
 
           
 
@@ -264,12 +270,11 @@
 
 <h2 id="Nacos和Eureka差异"><a href="#Nacos和Eureka差异" class="headerlink" title="Nacos和Eureka差异"></a>Nacos和Eureka差异</h2><p>Nacos的服务实例分为两种l类型：</p>
 <ul>
-<li><p>临时实例：如果实例宕机超过一定时间，会从服务列表剔除，默认的类型。</p>
-</li>
-<li><p>非临时实例：如果实例宕机，不会从服务列表剔除，也可以叫永久实例。</p>
-</li>
+<li>临时实例：如果实例宕机超过一定时间，会从服务列表剔除，默认的类型。</li>
+<li><strong>非临时实例：如果实例宕机，不会从服务列表剔除，也可以叫永久实例。</strong></li>
 </ul>
 <p>Nacos和Eureka整体结构类似，服务注册、服务拉取、心跳等待，但是也存在一些差异：</p>
+<p><img src="/filename/30.png"></p>
 <ul>
 <li><p>Nacos与eureka的共同点</p>
 <ul>
@@ -286,6 +291,35 @@
 </ul>
 </li>
 </ul>
+<h1 id="Nacos配置管理"><a href="#Nacos配置管理" class="headerlink" title="Nacos配置管理"></a>Nacos配置管理</h1><p>配置获取时，<strong>bootstrap.yml</strong>会比application.yml更早读取。</p>
+<p>加载bootstrap.yaml，获取nacos地址，配置文件id，根据id去nacos获取配置，加载本地配置与nacos拉取的配置合并。</p>
+<p>1）引入nacos-config依赖</p>
+<p>首先，在user-service服务中，引入nacos-config的客户端依赖：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&lt;!--nacos配置管理依赖--&gt;</span></span><br><span class="line"><span class="string">&lt;dependency&gt;</span></span><br><span class="line">    <span class="string">&lt;groupId&gt;com.alibaba.cloud&lt;/groupId&gt;</span></span><br><span class="line">    <span class="string">&lt;artifactId&gt;spring-cloud-starter-alibaba-nacos-config&lt;/artifactId&gt;</span></span><br><span class="line"><span class="string">&lt;/dependency&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>之前引入的时discovery，也就是服务发现，这里是config就是配置管理</p>
+<p>2）添加bootstrap.yaml</p>
+<p>然后，在user-service中添加一个bootstrap.yaml文件，内容如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">application:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">userservice</span> <span class="comment"># 服务名称</span></span><br><span class="line">  <span class="attr">profiles:</span></span><br><span class="line">    <span class="attr">active:</span> <span class="string">dev</span> <span class="comment">#开发环境，这里是dev </span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">nacos:</span></span><br><span class="line">      <span class="attr">server-addr:</span> <span class="string">localhost:8848</span> <span class="comment"># Nacos地址</span></span><br><span class="line">      <span class="attr">config:</span></span><br><span class="line">        <span class="attr">file-extension:</span> <span class="string">yaml</span> <span class="comment"># 文件后缀名</span></span><br></pre></td></tr></table></figure>
+
+<p>这里会根据spring.cloud.nacos.server-addr获取nacos地址，再根据</p>
+<p><code>$&#123;spring.application.name&#125;-$&#123;spring.profiles.active&#125;.$&#123;spring.cloud.nacos.config.file-extension&#125;</code>作为文件id，来读取配置。</p>
+<p>本例中，就是去读取<code>userservice-dev.yaml</code>：</p>
+<p><img src="/filename/image-20210714170845901.png"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/user&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserService userService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Value(&quot;$&#123;pattern.dateformat&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String dateformat;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@GetMapping(&quot;now&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">now</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> LocalDateTime.now().format(DateTimeFormatter.ofPattern(dateformat));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ...略</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="配置热更新"><a href="#配置热更新" class="headerlink" title="配置热更新"></a>配置热更新</h3><p>方式一</p>
+<p>在@Value注入的变量所在类上添加注解@RefreshScope</p>
+<p>方式二</p>
+<p>使用@ConfigurationProperties注解代替@Value注解。</p>
+<p>在user-service服务中，添加一个类，读取patterrn.dateformat属性</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.itcast.user.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> lombok.Data;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.context.properties.ConfigurationProperties;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@ConfigurationProperties(prefix = &quot;pattern&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PatternProperties</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String dateformat;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在UserController中使用这个类代替@Value：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/user&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserService userService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> PatternProperties patternProperties;<span class="comment">//替代value</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;now&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">now</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> LocalDateTime.now().format(DateTimeFormatter.ofPattern(patternProperties.getDateformat()));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 略</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
